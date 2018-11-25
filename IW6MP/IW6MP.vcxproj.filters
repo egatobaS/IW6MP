@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Lib">
+      <UniqueIdentifier>{1cc0fe8d-e802-44fc-b58c-f6514ce4b13b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Lib">
+      <UniqueIdentifier>{d430ff76-9e7f-472c-8dd2-41c354ec1a24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lib\CFG">
+      <UniqueIdentifier>{26c2b056-4b56-4c8d-b0b5-7d3a332e8adb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Lib\CFG">
+      <UniqueIdentifier>{bc450102-b172-4dd7-917b-7d063d888559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu">
+      <UniqueIdentifier>{ad384f5d-092c-4102-95b2-8c18bddc989c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu">
+      <UniqueIdentifier>{1b8c86fb-edc1-4aa0-98cd-80983e3cef94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{2cb95927-7b29-4325-a2e3-16d188bcf03d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{3d29379d-c5f3-4b2d-a04a-96abbf7eb9a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Misc">
+      <UniqueIdentifier>{cc0499a4-45b6-4aa4-9120-7e46e7bcbfff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Misc">
+      <UniqueIdentifier>{b5ba85e5-967b-4942-9358-16a7188e81cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Functions">
+      <UniqueIdentifier>{322a85cf-e867-4996-a9ff-346563aed02d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Functions">
+      <UniqueIdentifier>{46afbce5-6e7f-4b4f-9b92-dfac402420fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Drawing">
+      <UniqueIdentifier>{b2e6b3c8-355c-4dbc-befb-99405e5e7e51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Drawing">
+      <UniqueIdentifier>{450e72a4-8250-42e1-a80e-77a26241d212}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hook">
+      <UniqueIdentifier>{eb1712a3-bc3f-477e-9d51-33e5f82b1614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hook">
+      <UniqueIdentifier>{4a30015e-3c11-481e-919e-968e7478e9d1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="IW6MP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadCFG.cpp">
+      <Filter>Source Files\Lib\CFG</Filter>
+    </ClCompile>
+    <ClCompile Include="XIniRW.cpp">
+      <Filter>Source Files\Lib\CFG</Filter>
+    </ClCompile>
+    <ClCompile Include="AtgAudio.cpp">
+      <Filter>Source Files\Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Detour.cpp">
+      <Filter>Source Files\Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib.cpp">
+      <Filter>Source Files\Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files\Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuFunc.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Structures.cpp">
+      <Filter>Source Files\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Addresses.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions.cpp">
+      <Filter>Source Files\Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoWall.cpp">
+      <Filter>Source Files\Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Aimbot.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawing.cpp">
+      <Filter>Source Files\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Source Files\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="ESP.cpp">
+      <Filter>Source Files\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="Radar.cpp">
+      <Filter>Source Files\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="CG_Obituary.cpp">
+      <Filter>Source Files\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="CG_VisionSetStartLerp_To.cpp">
+      <Filter>Source Files\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="CL_Disconnect.cpp">
+      <Filter>Source Files\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="CL_WritePacket.cpp">
+      <Filter>Source Files\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="R_AddCmdDrawStretchPic.cpp">
+      <Filter>Source Files\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="R_EndFrame.cpp">
+      <Filter>Source Files\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="SCR_DrawScreenField.cpp">
+      <Filter>Source Files\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="XAM_191.cpp">
+      <Filter>Source Files\Hook</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LoadCFG.h">
+      <Filter>Header Files\Lib\CFG</Filter>
+    </ClInclude>
+    <ClInclude Include="XIniRW.h">
+      <Filter>Header Files\Lib\CFG</Filter>
+    </ClInclude>
+    <ClInclude Include="AtgAudio.h">
+      <Filter>Header Files\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Detour.h">
+      <Filter>Header Files\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel.h">
+      <Filter>Header Files\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib.h">
+      <Filter>Header Files\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>Header Files\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuFunc.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Addresses.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoWall.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Aimbot.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawing.h">
+      <Filter>Header Files\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Header Files\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="ESP.h">
+      <Filter>Header Files\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="Radar.h">
+      <Filter>Header Files\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="CG_Obituary.h">
+      <Filter>Header Files\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="CG_VisionSetStartLerp_To.h">
+      <Filter>Header Files\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="CL_Disconnect.h">
+      <Filter>Header Files\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="CL_WritePacket.h">
+      <Filter>Header Files\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="R_AddCmdDrawStretchPic.h">
+      <Filter>Header Files\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="R_EndFrame.h">
+      <Filter>Header Files\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="SCR_DrawScreenField.h">
+      <Filter>Header Files\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="XAM_191.h">
+      <Filter>Header Files\Hook</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IW6MP.xml">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

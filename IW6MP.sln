@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IW6MP", "IW6MP\IW6MP.vcxproj", "{29EE23FA-C566-4F37-A1A0-17C859063D56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Xbox 360 = Development|Xbox 360
+		Release|Xbox 360 = Release|Xbox 360
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29EE23FA-C566-4F37-A1A0-17C859063D56}.Development|Xbox 360.ActiveCfg = Development|Xbox 360
+		{29EE23FA-C566-4F37-A1A0-17C859063D56}.Development|Xbox 360.Build.0 = Development|Xbox 360
+		{29EE23FA-C566-4F37-A1A0-17C859063D56}.Development|Xbox 360.Deploy.0 = Development|Xbox 360
+		{29EE23FA-C566-4F37-A1A0-17C859063D56}.Release|Xbox 360.ActiveCfg = Development|Xbox 360
+		{29EE23FA-C566-4F37-A1A0-17C859063D56}.Release|Xbox 360.Build.0 = Development|Xbox 360
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B3A6F53-36D5-4297-B66F-BE00023CBFB6}
+	EndGlobalSection
+EndGlobal
