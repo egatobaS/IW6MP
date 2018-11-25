@@ -823,6 +823,7 @@ inline void CheckVisAndWalls(int client, const char* Bone)
 
 void DoClientChecks()
 {
+	//
 	for (int i = 0; i < 12; i++)
 	{
 		if ((cg->ClientNumber == cg->ps.clientNum) && (cg->ps.Health > 0) && GoodEnemy(i))
