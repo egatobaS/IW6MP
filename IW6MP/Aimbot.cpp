@@ -277,7 +277,7 @@ void SetSilentAngles(usercmd_s* cur, usercmd_s* old, usercmd_s* New)
 					CE.StoredTimeForShotDelay = cg->time;
 					if (!strstr(GetWeaponName(Entity[cg->ClientNumber].nextState.Weapon), "Riot Shield") || (BG_GetAmmoInClip(&cg->ps, cg->ps.Weapon) > 0)) {
 
-						cur->buttons |= 1;
+						old->buttons |= 1;
 
 						bFirstShot = false;
 					}
@@ -285,7 +285,7 @@ void SetSilentAngles(usercmd_s* cur, usercmd_s* old, usercmd_s* New)
 			}
 
 
-			if (CE.AimbotType == Silent && cur->buttons & AUTO_SHOOT)
+			if (CE.AimbotType == Silent && old->buttons & AUTO_SHOOT)
 			{
 				Vector3 TagPos;
 				if (!GetTagPos(CE.AimbotTarget, ClientOptions[CE.AimbotTarget].AimAtRoot ? "j_mainroot" : ((CE.AimbotTag[CE.AimbotTarget] > 0) ? CE.AimbotTag[CE.AimbotTarget] : TagList[CE.AimTag - 1]), &TagPos, true))
@@ -304,16 +304,16 @@ void SetSilentAngles(usercmd_s* cur, usercmd_s* old, usercmd_s* New)
 					return;
 
 				Vector3 FinalAngle = vectorToAngles(TagPos - ViewOrigin) - ClientActive_t->baseAngle;
-				float OldAngle = SHORT2ANGLE(cur->viewAngles[1]);
-				cur->viewAngles[0] = ANGLE2SHORT(FinalAngle.x);
-				cur->viewAngles[1] = ANGLE2SHORT(FinalAngle.y);
-				FixMovement(cur, SHORT2ANGLE(cur->viewAngles[1]), OldAngle, (float)cur->fDir, (float)cur->rDir);
+				float OldAngle = SHORT2ANGLE(old->viewAngles[1]);
+				old->viewAngles[0] = ANGLE2SHORT(FinalAngle.x);
+				old->viewAngles[1] = ANGLE2SHORT(FinalAngle.y);
+				FixMovement(old, SHORT2ANGLE(old->viewAngles[1]), OldAngle, (float)old->fDir, (float)old->rDir);
 			}
 
 			else bFirstShot = true;
 
 			if (CE.NoSpread && (Entity[cg->ClientNumber].nextState.Weapon != 0))
-				NoSpread(cur);
+				NoSpread(old);
 		}
 	}
 }

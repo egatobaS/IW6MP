@@ -543,7 +543,7 @@ void Menu_Reset()
 	CE.Controls = true;
 	CE.SpawnMessage = true;
 	CE.MenuHints = true;
-	CE.BoolType = CheckBox;
+	CE.BoolType = Switches;
 	CE.Scroller = true;
 }
 

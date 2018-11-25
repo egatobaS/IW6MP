@@ -6,6 +6,7 @@
 #include "ESP.h"
 
 pCL_WritePacketStub CL_WritePacketStub;
+pCL_CreateNewCommand CL_CreateNewCommandStub;
 
 #define ANGLE_DOWN 69.99999999999999f
 #define ANGLE_UP -69.99999999999999f
@@ -16,22 +17,44 @@ bool bSendPacket = true;
 float last = 0.0f, faked = 0.0f, fLag = 0.0f, spinAngle = 0.0f, rollAngle = 0.0f;
 int iLagTime = 0;
 
+
+void CL_CreateNewCommandHook(int r3)
+{
+	CL_CreateNewCommandStub(r3);
+
+	if (ShouldHookRun())
+	{
+		usercmd_s* New = ClientActive_t->GetUserCommand(ClientActive_t->CommandNumber + 1);
+		usercmd_s* cur = ClientActive_t->GetUserCommand(ClientActive_t->CommandNumber);
+		usercmd_s* old = ClientActive_t->GetUserCommand(ClientActive_t->CommandNumber);
+
+		ClientActive_t->CommandNumber++;
+		*New = *old;
+		old->time--;
+
+		if (!bJustDied && (cg->ps.clientNum == cg->ClientNumber) && (cg->ps.Health > 0) && cg->renderScreen)
+			DoSilentAimbot(cur, old, New);
+	}
+}
+
 void CL_WritePacketHook(int r3)
 {
 	__try
 	{
 		bSendPacket = true;
+
 		if (ShouldHookRun())
 		{
 			usercmd_s* New = ClientActive_t->GetUserCommand(ClientActive_t->CommandNumber + 1);
 			usercmd_s* cur = ClientActive_t->GetUserCommand(ClientActive_t->CommandNumber);
-			usercmd_s* old = ClientActive_t->GetUserCommand(ClientActive_t->CommandNumber - 1);
+			usercmd_s* old = ClientActive_t->GetUserCommand(ClientActive_t->CommandNumber);
 
-			cur->time++;
+			ClientActive_t->CommandNumber++;
+			*New = *old;
+			old->time--;
 
 			if (!bJustDied && (cg->ps.clientNum == cg->ClientNumber) && (cg->ps.Health > 0) && cg->renderScreen)
 			{
-				DoSilentAimbot(cur, old, New);
 
 				if (CE.FakeLag)
 				{
@@ -55,6 +78,7 @@ void CL_WritePacketHook(int r3)
 
 				if (!(Entity[cg->ClientNumber].prevState.eFlags & FLAG_PRONE) && (Entity[cg->ClientNumber].pose.eType & 1) && (cg->ClientNumber == cg->ps.clientNum) && (cg->ps.Health > 0) && (cg->ps.pm_flags != 4))
 				{
+
 					int viableClient = GetTargetClosest(true);
 					if (viableClient == -1)
 						viableClient = GetTargetClosest(false);

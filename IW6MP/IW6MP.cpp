@@ -22,6 +22,7 @@ Detour* CL_WritePacketDetour;
 Detour* CG_ObituaryDetour;
 Detour* CG_VisionSetStartLerp_ToDetour;
 Detour* CL_DisconnectDetour;
+Detour* CL_CreateNewCommandDetour;
 
 void RestoreHookGameHooks()
 {
@@ -32,6 +33,7 @@ void RestoreHookGameHooks()
 	CG_ObituaryDetour->RestoreFunction();
 	CG_VisionSetStartLerp_ToDetour->RestoreFunction();
 	CL_DisconnectDetour->RestoreFunction();
+	CL_CreateNewCommandDetour->RestoreFunction();
 }
 
 DWORD WINAPI ManagerThread()
@@ -148,11 +150,14 @@ DWORD WINAPI InitThread()
 			CG_ObituaryDetour = GetDetour();
 			CG_VisionSetStartLerp_ToDetour = GetDetour();
 			CL_DisconnectDetour = GetDetour();
+			CL_CreateNewCommandDetour = GetDetour();
 
 			xbOHookFunction(XAM_191Detour, (void*)addr->XAM_191, (void*)XAM_191Hook);
 			xbOHookFunction(R_EndFrameDetour, (void*)addr->R_EndFrame, (void*)R_EndFrameHook);
 			SCR_DrawScreenFieldStub = (pSCR_DrawScreenFieldStub)xbOHookFunction(SCR_DrawScreenFieldDetour, (void*)addr->SCR_DrawScreenField, (void*)SCR_DrawScreenFieldHook);
-			CL_WritePacketStub = (pCL_WritePacketStub)xbOHookFunction(CL_WritePacketDetour, (void*)0x822D67E8, (void*)CL_WritePacketHook);
+			CL_WritePacketStub = (pCL_WritePacketStub)xbOHookFunction(CL_WritePacketDetour, (void*)0x822D68C0, (void*)CL_WritePacketHook);
+			CL_CreateNewCommandStub = (pCL_CreateNewCommand)xbOHookFunction(CL_CreateNewCommandDetour, (void*)0x822D67E8, (void*)CL_CreateNewCommandHook);
+
 			CG_VisionSetStartLerp_ToStub = (pCG_VisionSetStartLerp_ToStub)xbOHookFunction(CG_VisionSetStartLerp_ToDetour, (void*)addr->CG_VisionSetStartLerp_To, (void*)CG_VisionSetStartLerp_ToHook);
 			CL_DisconnectStub = (pCL_DisconnectStub)xbOHookFunction(CL_DisconnectDetour, (void*)addr->CL_Disconnect, (void*)CL_DisconnectHook);
 			//CG_ObituaryStub = (pCG_ObituaryStub)xbOHookFunction(CG_ObituaryDetour, (void*)addr->CG_Obituary, (void*)CG_ObituaryHook);

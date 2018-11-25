@@ -98,9 +98,6 @@
     <ClCompile Include="AutoWall.cpp">
       <Filter>Source Files\Functions</Filter>
     </ClCompile>
-    <ClCompile Include="Aimbot.cpp">
-      <Filter>Source Files\Menu</Filter>
-    </ClCompile>
     <ClCompile Include="Drawing.cpp">
       <Filter>Source Files\Drawing</Filter>
     </ClCompile>
@@ -136,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="XAM_191.cpp">
       <Filter>Source Files\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Aimbot.cpp">
+      <Filter>Source Files\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -298,7 +298,7 @@ struct CE_s
 		Fov = 65;
 		AimTag = 1;
 		AimbotTarget = -1;
-		BoolType = CheckBox;
+		BoolType = Switches;
 		Scroller = true;
 		CrouchDelay = 600;
 
