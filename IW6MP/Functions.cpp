@@ -1008,14 +1008,24 @@ void BG_GetSpreadForWeapon(playerState_s* PlayerState, int Weapon, float *minSpr
 
 int TransformSeed(int *pHoldrand)
 {
-	int(*TransformSeed)(int *pHoldrand) = (int(*)(int*))addr->TransformSeed;
-	return TransformSeed(pHoldrand);
+	*pHoldrand = 214013 * (214013 * (214013 * (214013 * *pHoldrand + 2531011) + 2531011) + 2531011) + 2531011;
+
+	return *pHoldrand;
+}
+float CG_GoodRandomFloat(int *pHoldrand)
+{
+	/* Generating random value based on seed */
+	unsigned int r11 = 214013 * *pHoldrand + 2531011;
+	*pHoldrand = r11; /* Applying value to seed for next usage */
+	return (r11 >> 17) * 0.000030517578; /* Returning shifted value */
 }
 
 void RandomBulletDir(int* randSeed, float *x, float *y)
 {
-	void(*RandomBulletDir)(int* randSeed, float *x, float *y) = (void(*)(int* randSeed, float *x, float *y))addr->RandomBulletDir;
-	RandomBulletDir(randSeed, x, y);
+	float f26 = (CG_GoodRandomFloat(randSeed) * 360.0f) * (M_PI / 180.0f);
+	float f28 = CG_GoodRandomFloat(randSeed);
+	*x = f28 * cosf(f26); // sin
+	*y = f28 * sinf(f26); // cos
 }
 
 void GetWeaponSpread(float* Spread)

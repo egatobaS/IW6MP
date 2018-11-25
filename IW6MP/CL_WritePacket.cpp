@@ -27,9 +27,7 @@ void CL_WritePacketHook(int r3)
 			usercmd_s* cur = ClientActive_t->GetUserCommand(ClientActive_t->CommandNumber);
 			usercmd_s* old = ClientActive_t->GetUserCommand(ClientActive_t->CommandNumber - 1);
 
-			*old = *cur;
-			--old->time;
-			New = cur;
+			cur->time++;
 
 			if (!bJustDied && (cg->ps.clientNum == cg->ClientNumber) && (cg->ps.Health > 0) && cg->renderScreen)
 			{
@@ -37,7 +35,7 @@ void CL_WritePacketHook(int r3)
 
 				if (CE.FakeLag)
 				{
-					if (!(old->buttons & AUTO_SHOOT))
+					if (!(cur->buttons & AUTO_SHOOT))
 					{
 						if (iLagTime > GetTickCount())
 							iLagTime = 0;
@@ -81,20 +79,20 @@ void CL_WritePacketHook(int r3)
 							Angle.y -= 185.0f;
 
 							if (Entity[cg->ClientNumber].prevState.eFlags & FLAG_CROUCHED) {
-								if (cur->fDir > 0) {
-									cur->viewAngles[0] = ANGLE2SHORT(-60.0f - ClientActive_t->baseAngle.x);
+								if (New->fDir > 0) {
+									New->viewAngles[0] = ANGLE2SHORT(-60.0f - ClientActive_t->baseAngle.x);
 								}
-								if (cur->fDir < 0) {
-									cur->viewAngles[0] = ANGLE2SHORT(-60.0f - ClientActive_t->baseAngle.x);
+								if (New->fDir < 0) {
+									New->viewAngles[0] = ANGLE2SHORT(-60.0f - ClientActive_t->baseAngle.x);
 								}
 								else
-									cur->viewAngles[0] = ANGLE2SHORT(-35.0f - ClientActive_t->baseAngle.x);
+									New->viewAngles[0] = ANGLE2SHORT(-35.0f - ClientActive_t->baseAngle.x);
 								Angle.y += 20.0f;
 							}
 							else
-								cur->viewAngles[0] = ANGLE2SHORT(-45.0f - ClientActive_t->baseAngle.x);
+								New->viewAngles[0] = ANGLE2SHORT(-45.0f - ClientActive_t->baseAngle.x);
 
-							cur->viewAngles[1] = ANGLE2SHORT(Angle.y);
+							New->viewAngles[1] = ANGLE2SHORT(Angle.y);
 						}
 					}
 					else if (CE.AAYaw == 2)
@@ -104,15 +102,15 @@ void CL_WritePacketHook(int r3)
 
 						spinAngle += CE.SpinSpeed;
 
-						cur->viewAngles[1] = ANGLE2SHORT(spinAngle);
+						New->viewAngles[1] = ANGLE2SHORT(spinAngle);
 					}
 					else if (CE.AAYaw == 3)
 					{
 						if (bSendPacket)
-							cur->viewAngles[1] += ANGLE2SHORT(180.0f);
+							New->viewAngles[1] += ANGLE2SHORT(180.0f);
 						else
 						{
-							float tmpAngle0 = SHORT2ANGLE(cur->viewAngles[1]);
+							float tmpAngle0 = SHORT2ANGLE(New->viewAngles[1]);
 							float temp = last;
 							bool ret = true;
 							if (temp - tmpAngle0 > 180)
@@ -127,20 +125,20 @@ void CL_WritePacketHook(int r3)
 								ret = false;
 							if (ret)
 								last = tmpAngle0;
-							cur->viewAngles[1] += ANGLE2SHORT(faked);
+							New->viewAngles[1] += ANGLE2SHORT(faked);
 						}
 					}
 					else if (CE.AAYaw == 4)
 					{
-						cur->viewAngles[1] -= ANGLE2SHORT(!(cur->time % 2) ? 180.0f : 0.0f);
+						New->viewAngles[1] -= ANGLE2SHORT(!(New->time % 2) ? 180.0f : 0.0f);
 					}
 					else if (CE.AAYaw == 5)
 					{
 						if (bSendPacket)
-							cur->viewAngles[1] -= ANGLE2SHORT((cur->time % 2) % 2 ? 135.0f : 225.0f);
+							New->viewAngles[1] -= ANGLE2SHORT((New->time % 2) % 2 ? 135.0f : 225.0f);
 						else
 						{
-							float tmpAngle = SHORT2ANGLE(cur->viewAngles[1]);
+							float tmpAngle = SHORT2ANGLE(New->viewAngles[1]);
 							float temp = last;
 							bool ret = true;
 							if (temp - tmpAngle > 180)
@@ -155,16 +153,16 @@ void CL_WritePacketHook(int r3)
 								ret = false;
 							if (ret)
 								last = tmpAngle;
-							cur->viewAngles[1] += ANGLE2SHORT(faked);
+							New->viewAngles[1] += ANGLE2SHORT(faked);
 						}
 					}
 					else if (CE.AAYaw == 6)
 					{
 						if (bSendPacket)
-							cur->viewAngles[1] -= ANGLE2SHORT((cur->time % 2) % 2 ? 90.0f : -90.0f);
+							New->viewAngles[1] -= ANGLE2SHORT((New->time % 2) % 2 ? 90.0f : -90.0f);
 						else
 						{
-							float tmpAngle2 = SHORT2ANGLE(cur->viewAngles[1]);
+							float tmpAngle2 = SHORT2ANGLE(New->viewAngles[1]);
 							float temp = last;
 							bool ret = true;
 							if (temp - tmpAngle2 > 180)
@@ -179,23 +177,23 @@ void CL_WritePacketHook(int r3)
 								ret = false;
 							if (ret)
 								last = tmpAngle2;
-							cur->viewAngles[1] += ANGLE2SHORT(faked);
+							New->viewAngles[1] += ANGLE2SHORT(faked);
 						}
 					}
 
 					if (CE.AAPitch == 2)
-						cur->viewAngles[0] = ANGLE2SHORT((!(cur->time % 2) ? ANGLE_DOWN : ANGLE_UP) - ClientActive_t->baseAngle.x);
+						New->viewAngles[0] = ANGLE2SHORT((!(New->time % 2) ? ANGLE_DOWN : ANGLE_UP) - ClientActive_t->baseAngle.x);
 					else if (CE.AAPitch == 3)
 					{
 						if (bSendPacket)
-							cur->viewAngles[0] = ANGLE2SHORT(ANGLE_DOWN - ClientActive_t->baseAngle.x);
+							New->viewAngles[0] = ANGLE2SHORT(ANGLE_DOWN - ClientActive_t->baseAngle.x);
 						else
-							cur->viewAngles[0] = ANGLE2SHORT(ANGLE_UP - ClientActive_t->baseAngle.x);
+							New->viewAngles[0] = ANGLE2SHORT(ANGLE_UP - ClientActive_t->baseAngle.x);
 					}
 					else if (CE.AAPitch == 4)
-						cur->viewAngles[0] = ANGLE2SHORT(ANGLE_DOWN - ClientActive_t->baseAngle.x);
+						New->viewAngles[0] = ANGLE2SHORT(ANGLE_DOWN - ClientActive_t->baseAngle.x);
 					else if (CE.AAPitch == 5)
-						cur->viewAngles[0] = ANGLE2SHORT(ANGLE_UP - ClientActive_t->baseAngle.x);
+						New->viewAngles[0] = ANGLE2SHORT(ANGLE_UP - ClientActive_t->baseAngle.x);
 
 					if (CE.AARoll == 1)
 					{
@@ -204,7 +202,7 @@ void CL_WritePacketHook(int r3)
 
 						rollAngle += CE.RollSpinSpeed;
 
-						cur->viewAngles[2] = ANGLE2SHORT(rollAngle);
+						New->viewAngles[2] = ANGLE2SHORT(rollAngle);
 
 						ClientActive_t->viewAngle.z = -ClientActive_t->baseAngle.z;
 

@@ -60,14 +60,14 @@ void XAM_191Hook(DWORD r3, int r4, PXINPUT_STATE r5)
 				bk.Gamepad.sThumbRY = 0;
 			}
 
-			if (CE.AutoShoot && (FirstShot || (cg->time < CE.StoredTimeForShotDelay) || ((cg->time - CE.StoredTimeForShotDelay) > CE.DelayTimeFix)))
-			{
-				CE.StoredTimeForShotDelay = cg->time;
-				if (!strstr(GetWeaponName(Entity[cg->ClientNumber].nextState.Weapon), "Riot Shield") || (BG_GetAmmoInClip(&cg->ps, cg->ps.Weapon) > 0)) {
-					bk.Gamepad.bRightTrigger = 255;
-					FirstShot = false;
-				}
-			}
+			//if (CE.AutoShoot && (FirstShot || (cg->time < CE.StoredTimeForShotDelay) || ((cg->time - CE.StoredTimeForShotDelay) > CE.DelayTimeFix)))
+			//{
+			//	CE.StoredTimeForShotDelay = cg->time;
+			//	if (!strstr(GetWeaponName(Entity[cg->ClientNumber].nextState.Weapon), "Riot Shield") || (BG_GetAmmoInClip(&cg->ps, cg->ps.Weapon) > 0)) {
+			//		bk.Gamepad.bRightTrigger = 255;
+			//		FirstShot = false;
+			//	}
+			//}
 		}
 		else FirstShot = true;
 
