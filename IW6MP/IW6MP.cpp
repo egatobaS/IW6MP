@@ -94,7 +94,6 @@ void LaunchNewImage()
 
 DWORD WINAPI InitThread()
 {
-	//greg
 	__try
 	{
 #ifdef DEVKIT
