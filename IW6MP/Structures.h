@@ -742,7 +742,8 @@ struct cg_s
 	char _0xB940C[0x24];
 	characterInfo_t characterinfo[36]; //0xB9430
 	clientInfo_t clientinfo[12]; //0xC5E20
-	char _0xC6390[0x24F0];
+	char _0xC6390[0x1450];
+	float SpreadMultiplier; //0xC77E0
 }; //0xC8880
 
 struct UiContext

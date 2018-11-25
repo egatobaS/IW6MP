@@ -11,11 +11,6 @@ bool IsNumberdisBy(int number, int divisor) {
 	return ((number % divisor) == 0);
 }
 
-bool float_equals(float a, float b, float epsilon = 0.001)
-{
-	return abs(a - b) < epsilon;
-}
-
 void ReadMenu(int ID)
 {
 	for (int i = 0; i < Menu.MaxRows; i++)

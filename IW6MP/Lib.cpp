@@ -121,6 +121,11 @@ PWCHAR toWCHAR(PCHAR Text, ...) {
 	return Message;
 }
 
+bool float_equals(float a, float b, float epsilon)
+{
+	return abs(a - b) < epsilon;
+}
+
 bool YesNoBox(LPCWSTR Title, LPCWSTR Body)
 {
 	LPCWSTR ButtonNames[2] = { L"Yes", L"No" };

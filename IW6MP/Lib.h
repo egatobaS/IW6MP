@@ -135,6 +135,7 @@ int filter(const char* Name, unsigned int code, struct _EXCEPTION_POINTERS *ep);
 float AngleNormalize360(float angle);
 Vector3 VectorNormalize(Vector3 vec);
 PWCHAR toWCHAR(PCHAR Text, ...);
+bool float_equals(float a, float b, float epsilon = 0.001);
 bool YesNoBox(LPCWSTR Title, LPCWSTR Body);
 void PrintBox(int base, const char* Input);
 float GetDistance(Vector3 c1, Vector3 c2);

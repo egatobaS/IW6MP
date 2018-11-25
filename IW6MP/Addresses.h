@@ -135,7 +135,7 @@ struct addr_s
 		CG_GetPlayerViewOrigin = 0x822BC078;
 		CG_LocationalTrace = 0x822CB3B0;
 		BG_GetSpreadForWeapon = 0x82254700;
-		TransformSeed = 0x8222EC70;
+		TransformSeed = 0x82234840;
 		RandomBulletDir = 0x82430F10;
 		Trace_GetEntityHitId = 0x82443F98;
 		SV_IsMigrating = 0x824E0C68;
