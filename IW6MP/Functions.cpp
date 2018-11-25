@@ -335,7 +335,7 @@ bool GetTagPos(int EntNum, const char* Tag, Vector3* Pos, bool pointscale) {
 	int index = GetTagIndexForName(Tag);
 	if (index == -1)
 	{
-		printf("Failed to Find tag '%s' as it was not cached\n", Tag);
+		printf("Failed to Find tag '%s' on player '%i' as it was not cached\n", Tag, EntNum);
 		return false;
 	}
 
@@ -823,7 +823,6 @@ inline void CheckVisAndWalls(int client, const char* Bone)
 
 void DoClientChecks()
 {
-	//
 	for (int i = 0; i < 12; i++)
 	{
 		if ((cg->ClientNumber == cg->ps.clientNum) && (cg->ps.Health > 0) && GoodEnemy(i))
@@ -937,30 +936,30 @@ DWORD WINAPI ExecuteAutoWall(LPVOID Params)
 {
 starThread:
 
-	//static va_info_t va_buffer;
-	//static cbrush_t box_brush;
-	//static cmodel_t box_model;
-	//static PhysGeomList* geoms;
-	//static unsigned short partitions[0x39e6];
-	//static unsigned short brushes[0x4888];
-	//static TraceThreadInfo threadInfo = { { 0, partitions, brushes }, &box_brush, &box_model, &geoms };
-	//static CmdArgs cmd_args;
-	//static tls_t tls = { 0, &va_buffer, &env, &threadInfo, &cmd_args };
-	//
-	//int tls_ptr = 0;
-	//__asm mr tls_ptr, r13;
-	//TLS_Pointer = *(int*)(tls_ptr);
-	//
-	//*(int*)(TLS_Pointer + 0x70) = (int)&tls;
-	////*(int*)(r29 + 0x08) = addr->_0x82F0CC88; //bgs
-	//
-	//int ret = setjmp(env);
-	//
-	//Mutex = true;
-	//
-	//cmd_args.nesting = -1;
-	//cmd_args.totalUsedArgvPool = 0;
-	//cmd_args.totalUsedTextPool = 0;
+	static va_info_t va_buffer;
+	static cbrush_t box_brush;
+	static cmodel_t box_model;
+	static PhysGeomList* geoms;
+	static unsigned short partitions[0x39e6];
+	static unsigned short brushes[0x4888];
+	static TraceThreadInfo threadInfo = { { 0, partitions, brushes }, &box_brush, &box_model, &geoms };
+	static CmdArgs cmd_args;
+	static tls_t tls = { 0, &va_buffer, &env, &threadInfo, &cmd_args };
+	
+	int tls_ptr = 0;
+	__asm mr tls_ptr, r13;
+	TLS_Pointer = *(int*)(tls_ptr);
+	
+	*(int*)(TLS_Pointer + 0x70) = (int)&tls;
+	//*(int*)(r29 + 0x08) = addr->_0x82F0CC88; //bgs
+	
+	int ret = setjmp(env);
+	
+	Mutex = true;
+	
+	cmd_args.nesting = -1;
+	cmd_args.totalUsedArgvPool = 0;
+	cmd_args.totalUsedTextPool = 0;
 
 	while (!KillThread)
 	{

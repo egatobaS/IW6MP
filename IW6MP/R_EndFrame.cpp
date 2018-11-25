@@ -62,7 +62,6 @@ void R_EndFrameHook()
 			}
 
 			DoClientChecks();
-
 			SetAimbotTarget();
 			DoSetViewAngles();
 		}

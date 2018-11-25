@@ -23,7 +23,7 @@ void SCR_DrawScreenFieldHook(int r3, int r4)
 			{
 				if ((cg->ClientNumber == cg->ps.clientNum) && (cg->ps.Health > 0) && GoodPlayer(i))
 				{
-					//RunRiotChecks(i);
+					RunRiotChecks(i);
 					CacheTagOrigins(i);
 				}
 			}

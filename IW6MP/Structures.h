@@ -155,7 +155,7 @@ struct clientactive_t
 	Vector3 baseAngle; //0xE4
 	char _0x00F0[0x3B0];
 	float flZoomProgress; //0x4A0
-	char _0x4A4[0x2D6C];
+	char _0x4A4[0x2D68];
 	StanceState stance; //0x320C
 	char _0x3210[0xC0];
 	Vector3 viewAngle; //0x32D0
