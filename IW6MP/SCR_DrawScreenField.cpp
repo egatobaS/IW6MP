@@ -34,9 +34,9 @@ void SCR_DrawScreenFieldHook(int r3, int r4)
 				CE.IsMenuOpen = true;
 
 			ModLooper();
-			DrawESP();
-			//OnPlayerSpawn();
-			//DoCrouchBot();
+			//DrawESP();
+			OnPlayerSpawn();
+			DoCrouchBot();
 
 			if (HasReset)
 			{
@@ -65,6 +65,6 @@ void SCR_DrawScreenFieldHook(int r3, int r4)
 	}
 	__except (filter("SCR_DrawScreenField", GetExceptionCode(), GetExceptionInformation()))
 	{
-
+		SCR_DrawScreenFieldStub(r3, r4);
 	}
 }

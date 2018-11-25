@@ -153,11 +153,11 @@ DWORD WINAPI InitThread()
 			xbOHookFunction(R_EndFrameDetour, (void*)addr->R_EndFrame, (void*)R_EndFrameHook);
 			SCR_DrawScreenFieldStub = (pSCR_DrawScreenFieldStub)xbOHookFunction(SCR_DrawScreenFieldDetour, (void*)addr->SCR_DrawScreenField, (void*)SCR_DrawScreenFieldHook);
 			//CL_WritePacketStub = (pCL_WritePacketStub)xbOHookFunction(CL_WritePacketDetour, (void*)(void*)addr->CL_WritePacket, (void*)CL_WritePacketHook);
-			//CG_VisionSetStartLerp_ToStub = (pCG_VisionSetStartLerp_ToStub)xbOHookFunction(CG_VisionSetStartLerp_ToDetour, (void*)addr->CG_VisionSetStartLerp_To, (void*)CG_VisionSetStartLerp_ToHook);
-			//CL_DisconnectStub = (pCL_DisconnectStub)xbOHookFunction(CL_DisconnectDetour, (void*)addr->CL_Disconnect, (void*)CL_DisconnectHook);
+			CG_VisionSetStartLerp_ToStub = (pCG_VisionSetStartLerp_ToStub)xbOHookFunction(CG_VisionSetStartLerp_ToDetour, (void*)addr->CG_VisionSetStartLerp_To, (void*)CG_VisionSetStartLerp_ToHook);
+			CL_DisconnectStub = (pCL_DisconnectStub)xbOHookFunction(CL_DisconnectDetour, (void*)addr->CL_Disconnect, (void*)CL_DisconnectHook);
 			//CG_ObituaryStub = (pCG_ObituaryStub)xbOHookFunction(CG_ObituaryDetour, (void*)addr->CG_Obituary, (void*)CG_ObituaryHook);
 
-			//InitializeAutoWallThreads();
+			InitializeAutoWallThreads();
 			StartManagerThread();
 
 			XNotify(toWCHAR("%s [Ghosts] Loaded!\nDeveloped by OSM & Sabotage <3", CheatName));

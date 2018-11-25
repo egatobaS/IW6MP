@@ -958,6 +958,10 @@ void MenuMonitor()
 					Menu.OldTabScroll = -1;
 				}
 
+				WeaponDef* weaponDef = BG_GetWeaponDef(Entity[cg->ClientNumber].nextState.Weapon);
+				printf("0x%X\n", weaponDef);
+				printf("%s\n", GetWeaponName(Entity[cg->ClientNumber].nextState.Weapon));
+
 				Menu.MenuStatus = 1;
 				UI_PlaySound("mp_bonus_start");
 				CG_PlayRumbleOnClient("smg_fire");

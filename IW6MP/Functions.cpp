@@ -973,7 +973,7 @@ starThread:
 				if (Get_BGS() != Get_BGS_Pointer())
 					Set_BGS_Pointer(Get_BGS());
 
-				
+				DoClientChecks();
 			}
 		}
 		__except (filter("ExecuteThread", GetExceptionCode(), GetExceptionInformation()))
@@ -1287,10 +1287,9 @@ bool CG_IsSelectingLocation(int localClientNum)
 	return CG_IsSelectingLocation(localClientNum);
 }
 
-//TODO: Figure out why this was not returning correctly
 bool ShouldHookRun()
 {
-	return (Dvar_GetBool("cl_ingame") && GetStructs() && CG_IsFullyInitialized() && (cg->ps.pm_type != 7) /*&& !CL_IsServerRestarting() && CL_GetLocalClientMigrationState(0) == CMSTATE_INACTIVE && cg->renderScreen && (cg->ps.clientNum == cg->ClientNumber) && (cg->ps.Health > 0) && (clientUIActive->connectionState == CA_ACTIVE) && clientUIActive->active && clientUIActive->isRunning && clientUIActive->cgameInitCalled && clientUIActive->cgameInitialized*/);
+	return (Dvar_GetBool("cl_ingame") && GetStructs() && (cg->ps.pm_type != 7) && !CL_IsServerRestarting() && CL_GetLocalClientMigrationState(0) == CMSTATE_INACTIVE && (cg->ps.clientNum == cg->ClientNumber) && (cg->ps.Health > 0) && (clientUIActive->connectionState == CA_ACTIVE) && clientUIActive->active && clientUIActive->isRunning && clientUIActive->cgameInitCalled && clientUIActive->cgameInitialized);
 }
 
 bool CReadFile(const char* FileName, MemoryBuffer &pBuffer)

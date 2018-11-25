@@ -469,11 +469,9 @@ struct entityState_s
 	int iHeadIcon; //0x94
 	HudData hudData; //0x98
 	int solid; //0x9C
-	unsigned int eventParm; //0xA0
-	int eventSequence; //0xA4
-	int events[4]; //0xA8
-	int eventParms[4]; //0xB8
-	int Weapon; //0xC8
+	char _0x00A0[0x24];
+	int Weapon; //0xC4
+	char _0x00C8[0x4];
 	int inAltWeaponMode; //0xCC
 	animInfo_t animInfo; //0xD0
 	union

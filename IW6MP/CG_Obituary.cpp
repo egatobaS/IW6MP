@@ -39,13 +39,13 @@ void CG_ObituaryHook(int localClientNum, entityState_s *ent, int eventparam)
 		if (ShouldHookRun())
 		{
 			short victimIndex = ent->otherEntityNum, attackerIndex = ent->attackerEntityNum;
-			int meansofdeath = ent->eventParm & 0xFFFFFF7F, weaponId = ent->eventParm & 0xFF;
+			/*int meansofdeath = ent->eventParm & 0xFFFFFF7F, weaponId = ent->eventParm & 0xFF;
 
 			if (CE.MDetection && IsEnemy(attackerIndex) && !validateKill(attackerIndex, victimIndex, meansofdeath) && !ClientOptions[attackerIndex].Ignored && !ClientOptions[attackerIndex].Prioritized) {
 				CG_GameMessage(0, "[%s]^1Modder Detected: %s", CheatName, cg->clientinfo[attackerIndex].Name);
 				CG_GameMessage(0, "[%s]^1Prioritizing: %s", CheatName, cg->clientinfo[attackerIndex].Name);
 				ClientOptions[attackerIndex].Prioritized = true;
-			}
+			}*/
 
 			if (attackerIndex == cg->ClientNumber)
 			{
