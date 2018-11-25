@@ -150,11 +150,13 @@ void ModLooper()
 	*(int*)(0x82258BE0) = CE.NoFlinch ? 0x60000000 : 0x4BFFDED9;
 	*(int*)(0x82258BF8) = CE.NoFlinch ? 0x60000000 : 0x4BFFFD49;
 	*(int*)(0x82258C04) = CE.NoFlinch ? 0x60000000 : 0x4BFFFEC5;
-	*(int*)0x822C9344 = CE.NoRecoil ? 0x60000000 : 0x4BFA0395;
-	*(int*)(0x822654C8) = CE.UAV ? 0x3B600001 : 0x551B7FFE;
-	*(char*)(0x8227F19B) = CE.Laser ? 0x01 : 0x00;
+	*(int*)0x822C9344 = CE.NoRecoil ? 0x60000000 : 0x4BF8AE4D;
+
 	*(int*)0x822C73C0 = CE.Impacts ? 0x7D8802A6 : 0x4E800020;
 	*(int*)0x82385B38 = CE.Impacts ? 0x7D8802A6 : 0x4E800020;
+
+	*(int*)(0x822654C8) = CE.UAV ? 0x3B600001 : 0x551B7FFE;
+	*(char*)(0x8227F19B) = CE.Laser ? 0x01 : 0x00;
 
 	//Remove Game Radar
 	bool ShouldDisableRadar = (CE.ExternalRadar && (clientUIActive->OpenMenu != 0x40) && !CG_IsSelectingLocation(0));

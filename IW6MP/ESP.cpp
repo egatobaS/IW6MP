@@ -302,7 +302,7 @@ void Draw3DBox(Vector3 Centre, Vector3 Dimensions, Vector3 Angles, float R, floa
 		Nodes[i].y = (Node.y * CosYaw) + (Node.x * SinYaw);
 	}
 
-	for (int i = 0; i < 18; ++i)
+	for (int i = 0; i < 12; ++i)
 		MakeESPLine(Centre, Nodes[iEdgePairs[i][0]].x, Nodes[iEdgePairs[i][0]].y, Nodes[iEdgePairs[i][0]].z, Nodes[iEdgePairs[i][1]].x, Nodes[iEdgePairs[i][1]].y, Nodes[iEdgePairs[i][1]].z, R, G, B, A);
 }
 
@@ -315,6 +315,7 @@ void DrawESPBox(int Client, bool isdogo, RGBA *color = NULL, int owner = 0)
 	else
 		SetESPColor(Client, R, G, B, A);
 	float fHeight, fWidth; Vector2 Location; int distance = GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[Client].pose.Origin);
+
 	if (GetDimentions(Client, &fWidth, &fHeight, &Location))
 	{
 		if (A)
@@ -331,26 +332,27 @@ void DrawESPBox(int Client, bool isdogo, RGBA *color = NULL, int owner = 0)
 				Vector3 Angles = Entity[Client].nextState.lerp.apos.trBase;
 				Angles.x = 0;
 				Angles.z = 0;
-
+				
 				Vector3 Center = Entity[Client].pose.Origin;
-
+				
 				float length = 30.0f, width = 30.0f;
-				if (Entity[Client].nextState.lerp.eFlags & FLAG_PRONE) {
+				if (Entity[Client].nextState.lerp.eFlags & FLAG_PRONE) 
+				{
 					length = 90.0f;
 					width = 45.0f;
-
+				
 					Angles.y -= 20;
-
+				
 					Vector3 NewAngle = Angles;
 					NewAngle.y -= 180;
 					Center = AnglesToForward(Center, NewAngle, 10);
-
+				
 					NewAngle.y += 90;
 					Center = AnglesToForward(Center, NewAngle, 5);
 				}
-
+				
 				Vector3 Dimentions(length, width, GetBoxHeight(Entity[Client]));
-
+				
 				Draw3DBox(Center, Dimentions, Angles, R, G, B, A);
 			}
 			if (CE.ESPType == FB)
@@ -374,9 +376,12 @@ void DrawESPBox(int Client, bool isdogo, RGBA *color = NULL, int owner = 0)
 				SetShader("white", (Location.x + (fWidth / 2)), (Location.y - fHeight), 1, (fHeight / 8), R, G, B, A);//right top
 				SetShader("white", (Location.x + (fWidth / 2)), (Location.y - (fHeight / 8)), 1, (fHeight / 8), R, G, B, A);//right bottom
 			}
+
 			float fFontSize = (0.5 - (GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[Client].pose.Origin) / 100));
+
 			if (fFontSize < 0.3)
 				fFontSize = 0.3;
+
 			if (CE.ESPSettings.ESPName)
 			{
 				if (isdogo)

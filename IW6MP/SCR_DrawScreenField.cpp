@@ -23,7 +23,7 @@ void SCR_DrawScreenFieldHook(int r3, int r4)
 			{
 				if ((cg->ClientNumber == cg->ps.clientNum) && (cg->ps.Health > 0) && GoodPlayer(i))
 				{
-					RunRiotChecks(i);
+					//RunRiotChecks(i);
 					CacheTagOrigins(i);
 				}
 			}
@@ -34,7 +34,7 @@ void SCR_DrawScreenFieldHook(int r3, int r4)
 				CE.IsMenuOpen = true;
 
 			ModLooper();
-			//DrawESP();
+			DrawESP();
 			//OnPlayerSpawn();
 			//DoCrouchBot();
 

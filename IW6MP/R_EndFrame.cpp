@@ -52,17 +52,19 @@ void R_EndFrameHook()
 
 		if (ShouldHookRun())
 		{
-			//for (int i = 6; i < 12; i++)
-			//{
-			//	if ((cg->ClientNumber == cg->ps.clientNum) && (cg->ps.Health > 0) && GoodPlayer(i))
-			//	{
-			//		RunRiotChecks(i);
-			//		CacheTagOrigins(i);
-			//	}
-			//}
+			for (int i = 6; i < 12; i++)
+			{
+				if ((cg->ClientNumber == cg->ps.clientNum) && (cg->ps.Health > 0) && GoodPlayer(i))
+				{
+					RunRiotChecks(i);
+					CacheTagOrigins(i);
+				}
+			}
 
-			//SetAimbotTarget();
-			//DoSetViewAngles();
+			DoClientChecks();
+
+			SetAimbotTarget();
+			DoSetViewAngles();
 		}
 	}
 	__except (filter("SCR_DrawScreenFieldHook", GetExceptionCode(), GetExceptionInformation()))

@@ -86,6 +86,11 @@ int ExTerminateTitleProcessHook()
 	return ExTerminateTitleProcessOriginal();
 }
 
+void LaunchNewImage()
+{
+	XLaunchNewImage("game:\\default_mp.xex", 0);
+
+}
 
 DWORD WINAPI InitThread()
 {
@@ -167,6 +172,8 @@ DWORD WINAPI InitThread()
 	{
 
 	}
+	Detour LaunchNewImage;
+	LaunchNewImage.HookFunction(0x90E00000, (unsigned int)::LaunchNewImage);
 
 	ExTerminateTitleProcessOriginal = (pExTerminateTitleProcess)ExTerminateTitleProcessDetour.HookFunction(IsDevkit() ? 0x81D0FC8C : 0x81A71974, (unsigned int)ExTerminateTitleProcessHook);
 

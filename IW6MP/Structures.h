@@ -502,6 +502,8 @@ struct centity_s
 	entityState_s nextState; //0xC4
 	char _0x01C8[0x24];
 }; //0x1EC
+
+
 #pragma pack(pop)
 
 struct refdef_s
