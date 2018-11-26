@@ -163,7 +163,7 @@ DWORD WINAPI InitThread()
 			R_AddCmdDrawQuadPicStub = (pR_AddCmdDrawQuadPicStub)xbOHookFunction(R_AddCmdDrawQuadPicDetour, (void*)0x8266D5F0, (void*)R_AddCmdDrawQuadPicHook);
 			CG_VisionSetStartLerp_ToStub = (pCG_VisionSetStartLerp_ToStub)xbOHookFunction(CG_VisionSetStartLerp_ToDetour, (void*)addr->CG_VisionSetStartLerp_To, (void*)CG_VisionSetStartLerp_ToHook);
 			CL_DisconnectStub = (pCL_DisconnectStub)xbOHookFunction(CL_DisconnectDetour, (void*)addr->CL_Disconnect, (void*)CL_DisconnectHook);
-			//CG_ObituaryStub = (pCG_ObituaryStub)xbOHookFunction(CG_ObituaryDetour, (void*)addr->CG_Obituary, (void*)CG_ObituaryHook);
+			CG_ObituaryStub = (pCG_ObituaryStub)xbOHookFunction(CG_ObituaryDetour, (void*)addr->CG_Obituary, (void*)CG_ObituaryHook);
 
 			InitializeAutoWallThreads();
 			StartManagerThread();
