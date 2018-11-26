@@ -342,35 +342,45 @@ void CG_CompassDrawFriendlies()
 		float W, H;
 		CalcCompassFriendlySize(0, &W, &H);
 
-		W *= 1.5;
-		H *= 1.5;
+		W *= 2.0;
+		H *= 2.0;
 
-		if (CL_ClientIsInMyParty(0, i))
+		if (Entity[i].nextState.Type == ET_AGENT)
 		{
-			if (compassActor->perks[1] & addr->_0x00040000)
-				DrawOnRadarYaw((Material*)(addr->_0x82ACCD00 + 0x3BC), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+			if (compassActor->beginFadeTime && ((compassActor->beginFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
+				DrawOnRadarYaw("cb_compassping_friendlyfiring_party_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
 			else
-			{
-				if (compassActor->beginFadeTime && ((compassActor->beginFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
-					DrawOnRadarYaw("cb_compassping_friendlyfiring_party_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
-				else if (compassActor->beginVoiceFadeTime && ((compassActor->beginVoiceFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
-					DrawOnRadarYaw("cb_compassping_friendlyyelling_party_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
-				else
-					DrawOnRadarYaw("cb_compassping_friendly_party_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
-			}
+				DrawOnRadarYaw("cb_compassping_friendly_party_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
 		}
 		else
 		{
-			if (compassActor->perks[1] & addr->_0x00040000)
-				DrawOnRadarYaw((Material*)(addr->_0x82ACCD00 + addr->_0x000003BC), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+			if (CL_ClientIsInMyParty(0, i))
+			{
+				if (compassActor->perks[1] & addr->_0x00040000)
+					DrawOnRadarYaw((Material*)(addr->_0x82ACCD00 + 0x3BC), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+				else
+				{
+					if (compassActor->beginFadeTime && ((compassActor->beginFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
+						DrawOnRadarYaw("cb_compassping_friendlyfiring_party_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+					else if (compassActor->beginVoiceFadeTime && ((compassActor->beginVoiceFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
+						DrawOnRadarYaw("cb_compassping_friendlyyelling_party_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+					else
+						DrawOnRadarYaw("cb_compassping_friendly_party_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+				}
+			}
 			else
 			{
-				if (compassActor->beginFadeTime && ((compassActor->beginFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
-					DrawOnRadarYaw("cb_compassping_friendlyfiring_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
-				else if (compassActor->beginVoiceFadeTime && ((compassActor->beginVoiceFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
-					DrawOnRadarYaw("cb_compassping_friendlyyelling_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+				if (compassActor->perks[1] & addr->_0x00040000)
+					DrawOnRadarYaw((Material*)(addr->_0x82ACCD00 + addr->_0x000003BC), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
 				else
-					DrawOnRadarYaw("cb_compassping_friendly_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+				{
+					if (compassActor->beginFadeTime && ((compassActor->beginFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
+						DrawOnRadarYaw("cb_compassping_friendlyfiring_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+					else if (compassActor->beginVoiceFadeTime && ((compassActor->beginVoiceFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
+						DrawOnRadarYaw("cb_compassping_friendlyyelling_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+					else
+						DrawOnRadarYaw("cb_compassping_friendly_mp", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+				}
 			}
 		}
 	}
@@ -403,8 +413,8 @@ void CG_CompassDrawEnemies()
 		float W, H;
 		CalcCompassFriendlySize(0, &W, &H);
 
-		W *= 1.5;
-		H *= 1.5;
+		W *= 2.0;
+		H *= 2.0;
 
 		if (compassActor->perks[1] & addr->_0x00040000)
 			DrawOnRadarYaw((Material*)(0x82ACCD00 + addr->_0x000003B8), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
@@ -418,8 +428,8 @@ void CG_CompassDrawPlayer()
 	float W, H;
 	CalcCompassFriendlySize(0, &W, &H);
 
-	W *= 1.5;
-	H *= 1.5;
+	W *= 2.0;
+	H *= 2.0;
 
 	DrawOnRadar("compassping_player", W, H, 1, 1, 1, 1, false, cg->ClientNumber);
 }
@@ -442,7 +452,7 @@ void DrawWeaponsOnRadar(int i)
 				DrawOnRadar(shader->Name, (17 * 2.0), (17 * 0.5), 1, 1, 1, 1, false, i);
 		}
 		else if (CE.ESPSettings.DrawScavengerPacks && cuser_strcmp(GetWeaponName(Entity[i].nextState.Weapon), "Scavenger") && BG_HasPerk("specialty_scavenger"))
-			DrawOnRadar("specialty_scavenger", 25, 20, 1, 1, 1, 1, false, i); //scavenger_pickup  specialty_scavenger  
+			DrawOnRadar("icon_perks_scavenger", 25, 20, 1, 1, 1, 1, false, i); //scavenger_pickup  specialty_scavenger  
 	}
 }
 
@@ -577,7 +587,7 @@ void CG_CompassDrawMissiles()
 		if (CompassMissile->lastUpdateTime < (cg->time - 0x1F4))
 			continue;
 
-		DrawOnRadarYaw((IsEnemy(CompassMissile->ownerNum) ? "remotemissile_target_hostile" : "remotemissile_target_friendly"), (Dvar_GetFloat("compassSize") * 50.0f), (Dvar_GetFloat("compassSize") * 50.0f), 1, 1, 1, 1, cg->refdefViewAngles.y - CompassMissile->yaw, (Vector3)CompassMissile->pos);
+		DrawOnRadarYaw((IsEnemy(CompassMissile->ownerNum) ? "cb_remotemissile_target_hostile" : "cb_remotemissile_target_friendly"), (Dvar_GetFloat("compassSize") * 50.0f), (Dvar_GetFloat("compassSize") * 50.0f), 1, 1, 1, 1, cg->refdefViewAngles.y - CompassMissile->yaw, (Vector3)CompassMissile->pos);
 	}
 }
 
@@ -738,7 +748,7 @@ void CG_CompassDrawTurrets()
 		if (CompassTurret->lastUpdateTime < (cg->time - 0x1F4))
 			continue;
 
-		DrawOnRadarYaw((CompassTurret->firePingTime >= cg->time) ? ((CompassTurret->isFriendly) ? "compassping_sentry_friendlyfiring" : "compassping_sentry_enemyfiring") : ((CompassTurret->isFriendly) ? "compassping_sentry_friendly" : "compassping_sentry_enemy"), 28.0f, 25.0f, 1, 1, 1, 1, cg->refdefViewAngles.y - CompassTurret->yawCurrent, (Vector3)CompassTurret->positionCurrent);
+		DrawOnRadarYaw((CompassTurret->firePingTime >= cg->time) ? ((CompassTurret->isFriendly) ? "cb_compassping_sentry_friendlyfiring" : "cb_compassping_sentry_enemyfiring") : ((CompassTurret->isFriendly) ? "cb_compassping_sentry_friendly" : "cb_compassping_sentry_enemy"), 28.0f, 25.0f, 1, 1, 1, 1, cg->refdefViewAngles.y - CompassTurret->yawCurrent, (Vector3)CompassTurret->positionCurrent);
 	}
 }
 

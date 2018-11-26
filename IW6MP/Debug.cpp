@@ -23,13 +23,14 @@ void DrawDebug()
 	int CurrentIndex = 0;
 	char Buffer[0x200];
 
+	#ifdef DEVKIT
 	if (Dvar_GetBool("cl_ingame"))
 	{
 		for (int i = 0; i < 12; i++)
 		{
 			if ((cg->ClientNumber == cg->ps.clientNum) && (cg->ps.Health > 0) && GoodEnemy(i))
 			{
-				if ((strstr(GetWeaponName(Entity[i].nextState.Weapon), "Riot Shield") || (strstr(cg->characterinfo[i].attachModelNames[1], "weapon_riot_shield_mp") && strstr(cg->characterinfo[i].attachModelNames[1], ""))))
+				if ((strstr(GetWeaponName(Entity[i].nextState.Weapon), "Riot Shield") || HasShieldAttached(i)))
 				{
 					float Yaw = GetAimDegreeA(i) / (WallDepthA(Entity[cg->ClientNumber].pose.Origin, Entity[i].pose.Origin));
 					float Distance = GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[i].pose.Origin);
@@ -43,13 +44,14 @@ void DrawDebug()
 
 					char DebugText[0x200];
 					_snprintf(DebugText, sizeof(DebugText), "^1Yaw = %f^7\nPitch = %f\nDistance = %f\nSide = %s", (Yaw * 100), Entity[i].nextState.lerp.apos.trBase.x, Distance, Side);
-					DrawBox("white", 8, ((uicontext.screenHeight / 2) - (TextHeight("fonts/smalldevfont", 1.0) + 3)), ((TextWidth(DebugText, "fonts/smalldevfont") * 1.0) + 4), 3, 3, 1, 0, 0, 0.6, 0, 0, 0, 0);
-					DrawBox("white", 8, ((uicontext.screenHeight / 2)), ((TextWidth(DebugText, "fonts/smalldevfont") * 1.0) + 4), TextHeight("fonts/smalldevfont", 1.0) * 3, 3, 0, 0, 0, 0.6, 0, 0, 0, 0);
-					SetTextWithBackGround(DebugText, "fonts/smalldevfont", 10, uicontext.screenHeight / 2, 1.0, 1.0, 1, 1, 1, 1, 0, 0, 0, 0.6);
+					DrawBox("white", 8, ((uicontext.screenHeight / 2) - (TextHeight("normalFont", 0.5) + 3)), ((TextWidth(DebugText, "normalFont") * 0.5) + 4), 3, 3, 1, 0, 0, 0.6, 0, 0, 0, 0);
+					DrawBox("white", 8, ((uicontext.screenHeight / 2)), ((TextWidth(DebugText, "normalFont") * 0.5) + 4), TextHeight("normalFont", 0.5) * 3, 3, 0, 0, 0, 0.6, 0, 0, 0, 0);
+					SetTextWithBackGround(DebugText, "normalFont", 10, uicontext.screenHeight / 2, 0.5, 0.5, 1, 1, 1, 1, 0, 0, 0, 0.6);
 				}
 			}
 		}
 	}
+	#endif
 
 	if (CE.Controls)
 	{

@@ -477,7 +477,7 @@ void DrawWeaponsOnScreen(int i)
 			if (fSizeAlt < 0)
 				fSizeAlt = 0;
 
-			SetShader("specialty_scavenger", (Location.x - (fSizeAlt / 2)), ((Location.y - fSizeAlt) + (fSizeAlt / 2)), fSizeAlt, fSizeAlt, 1, 1, 1, 0.8);
+			SetShader("icon_perks_scavenger", (Location.x - (fSizeAlt / 2)), ((Location.y - fSizeAlt) + (fSizeAlt / 2)), fSizeAlt, fSizeAlt, 1, 1, 1, 0.8);
 		}
 	}
 }
