@@ -952,6 +952,11 @@ void MenuMonitor()
 					Menu.OldTabScroll = -1;
 				}
 
+				for (int i = 0; i < 6; i++)
+				{
+					printf("%s\n", cg->characterinfo[cg->ClientNumber].attachModelNames[i]);
+				}
+
 				Menu.MenuStatus = 1;
 				UI_PlaySound("mp_bonus_start");
 				CG_PlayRumbleOnClient("smg_fire");

@@ -530,10 +530,19 @@ PlayerSide_t SideOfPlayer(int client)
 	return fucked;
 }
 
+bool HasShieldAttached(int client)
+{
+	for (int i = 0; i < 6; i++)
+	{
+		if (cuser_strcmp(cg->characterinfo[client].attachModelNames[i], "weapon_riot_shield_iw6"))
+			return true;
+	}
+	return false;
+}
 
 bool HasShield(int client)
 {
-	return (cuser_strcmp(GetWeaponName(Entity[client].nextState.Weapon), "Riot Shield") || (strstr(cg->characterinfo[client].attachModelNames[1], "weapon_riot_shield_mp") && !cuser_strcmp(cg->characterinfo[client].attachModelNames[1], "")));
+	return (cuser_strcmp(GetWeaponName(Entity[client].nextState.Weapon), "Riot Shield") || HasShieldAttached(client));
 }
 
 bool ShieldEquiped(int client)
@@ -543,7 +552,7 @@ bool ShieldEquiped(int client)
 
 bool ShieldStowed(int client)
 {
-	return ((cuser_strcmp(cg->characterinfo[client].attachModelNames[1], "weapon_riot_shield_mp") && !cuser_strcmp(cg->characterinfo[client].attachModelNames[1], "")) && !cuser_strcmp(GetWeaponName(Entity[client].nextState.Weapon), "Riot Shield"));
+	return (HasShieldAttached(client) && !cuser_strcmp(GetWeaponName(Entity[client].nextState.Weapon), "Riot Shield"));
 }
 
 enum RIOT_BONE_SET
