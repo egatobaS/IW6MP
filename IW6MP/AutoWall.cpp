@@ -173,16 +173,16 @@ bool BasicBulletHitPlayer(Vector3 end, centity_s ent)
 	bulletFireParams.end = end;
 	AngleVectors(vectorToAngles(end - cg->refdef.ViewOrigin), &bulletFireParams.dir, NULL, NULL);
 
-	*(int*)0x822C73C0 = 0x4E800020;
-	*(int*)0x82385B38 = 0x4E800020;
+	*(int*)addr->_0x822C73C0 = addr->_0x4E800020;
+	*(int*)addr->_0x82385B38 = addr->_0x4E800020;
 
 	void(*FireBulletPenetrate) (int localClientNum, BulletFireParams* bulletFireParams, int weaponID, int unk2, centity_s* ent, int minus_1_param, Vector3 tracerStart, bool drawTracer) = (void(*)(int localClientNum, BulletFireParams* bulletFireParams, int weaponID, int unk2, centity_s* ent, int minus_1_param, Vector3 tracerStart, bool drawTracer))addr->FireBulletPenetrate;
 	FireBulletPenetrate(0, &bulletFireParams, cg->ps.Weapon, 0, &Entity[cg->ClientNumber], -1, (float*)&cg->refdef.ViewOrigin, false);
 
 	if (CE.Impacts)
 	{
-		*(int*)0x822C73C0 = 0x7D8802A6;
-		*(int*)0x82385B38 = 0x7D8802A6;
+		*(int*)addr->_0x822C73C0 = addr->_0x7D8802A6;
+		*(int*)addr->_0x82385B38 = addr->_0x7D8802A6;
 	}
 
 	return ((bulletFireParams.ignoreEntIndex == ent.nextState.clientNum) && (bulletFireParams.damageMultiplier > 0.0f));

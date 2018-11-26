@@ -19,5 +19,3 @@ void DrawProgressBar(float x, float y, float w, float h, float min, float max, f
 void DrawLine(float X1, float Y1, float X2, float Y2, float Width, float R, float G, float B, float A);
 void DrawWrappedText(const char *text, const char* fontname, float x, float y, float w, float h, float scale, float *color, int textAlignMode, rectDef_s *textRect);
 float UI_DrawWrappedText(const char *text, const char* font, float x, float y, float w, float h, float scale, int textAlignMode, float R, float G, float B, float A);
-void R_AddCmdDrawStretchPicRotateST(float x, float y, float w, float h, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material);
-void CL_DrawStretchPicRotatedST(int scrPlace, float x, float y, float w, float h, int horzAlign, int vertAlign, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material);

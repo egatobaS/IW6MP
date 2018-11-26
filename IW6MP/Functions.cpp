@@ -100,7 +100,7 @@ void CG_SetVision(int unk, int unk1, int unk2, char* vision, int duration)
 	{
 		user_strcpy(VisionSet, vision);
 		void(*CG_VisionSetStartLerp_To)(int r3, int r4, int r5, char* vision, int duration) = (void(*)(int, int, int, char*, int))addr->CG_VisionSetStartLerp_To;
-		CG_VisionSetStartLerp_To((*(int*)(addr->cg_s) + 0xC6448), unk1, unk2, vision, duration);
+		CG_VisionSetStartLerp_To((*(int*)(addr->cg_s) + addr->_0x000C6448), unk1, unk2, vision, duration);
 	}
 }
 
@@ -753,7 +753,7 @@ bool CheckVis(int client, Vector3 Pos)
 	trace_t trace;
 	Vector3 nullvec;
 	void(*CG_LocationalTrace)(trace_t *results, Vector3 *start, Vector3 *end, int passEntityNum, int contentMask) = (void(*)(trace_t *, Vector3 *, Vector3 *, int, int))addr->CG_LocationalTrace;
-	CG_LocationalTrace(&trace, &cg->refdef.ViewOrigin, &Pos, cg->ClientNumber, 0x803003);
+	CG_LocationalTrace(&trace, &cg->refdef.ViewOrigin, &Pos, cg->ClientNumber, addr->_0x00803003);
 
 	Sys_LeaveCriticalSection(0xB);
 	Sys_LeaveCriticalSection(0xC);
@@ -1004,28 +1004,6 @@ void BG_GetSpreadForWeapon(playerState_s* PlayerState, int Weapon, float *minSpr
 {
 	void(*BG_GetSpreadForWeapon)(playerState_s* PlayerState, int Weapon, float *minSpread, float *maxSpread) = (void(*)(playerState_s*, int, float*, float*))addr->BG_GetSpreadForWeapon;
 	BG_GetSpreadForWeapon(PlayerState, Weapon, minSpread, maxSpread);
-}
-
-int TransformSeed(int *pHoldrand)
-{
-	*pHoldrand = 214013 * (214013 * (214013 * (214013 * *pHoldrand + 2531011) + 2531011) + 2531011) + 2531011;
-
-	return *pHoldrand;
-}
-float CG_GoodRandomFloat(int *pHoldrand)
-{
-	/* Generating random value based on seed */
-	unsigned int r11 = 214013 * *pHoldrand + 2531011;
-	*pHoldrand = r11; /* Applying value to seed for next usage */
-	return (r11 >> 17) * 0.000030517578; /* Returning shifted value */
-}
-
-void RandomBulletDir(int* randSeed, float *x, float *y)
-{
-	float f26 = (CG_GoodRandomFloat(randSeed) * 360.0f) * (M_PI / 180.0f);
-	float f28 = CG_GoodRandomFloat(randSeed);
-	*x = f28 * cosf(f26); // sin
-	*y = f28 * sinf(f26); // cos
 }
 
 void GetWeaponSpread(float* Spread)

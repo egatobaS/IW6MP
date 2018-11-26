@@ -139,8 +139,6 @@ clientMigState_t CL_GetLocalClientMigrationState(int localclient);
 DWORD WINAPI ExecuteAutoWall(LPVOID Params);
 void InitializeAutoWallThreads();
 void BG_GetSpreadForWeapon(playerState_s* PlayerState, int Weapon, float *minSpread, float *maxSpread);
-int TransformSeed(int *pHoldrand);
-void RandomBulletDir(int* randSeed, float *x, float *y);
 void GetWeaponSpread(float* Spread);
 void NoSpread(usercmd_s *cmd);
 float WallDepth(float *p1, float *p2);

@@ -13,7 +13,7 @@
 #include "CG_Obituary.h"
 #include "CG_VisionSetStartLerp_To.h"
 #include "CL_Disconnect.h"
-
+#include "R_AddCmdDrawQuadPic.h"
 
 Detour* XAM_191Detour;
 Detour* R_EndFrameDetour;
@@ -23,6 +23,7 @@ Detour* CG_ObituaryDetour;
 Detour* CG_VisionSetStartLerp_ToDetour;
 Detour* CL_DisconnectDetour;
 Detour* CL_CreateNewCommandDetour;
+Detour* R_AddCmdDrawQuadPicDetour;
 
 void RestoreHookGameHooks()
 {
@@ -34,6 +35,7 @@ void RestoreHookGameHooks()
 	CG_VisionSetStartLerp_ToDetour->RestoreFunction();
 	CL_DisconnectDetour->RestoreFunction();
 	CL_CreateNewCommandDetour->RestoreFunction();
+	R_AddCmdDrawQuadPicDetour->RestoreFunction();
 }
 
 DWORD WINAPI ManagerThread()
@@ -129,7 +131,7 @@ DWORD WINAPI InitThread()
 		if ((XamGetCurrentTitleID() == 0x415608FC) && cuser_strcmp((char*)0x820494C0, "mw3_content_required_error"))
 		{
 			//version number 
-			strcpy((char*)0x8204B874, va("^4IW6MP %s\0", CheatVersion));
+			strcpy((char*)addr->_0x8204B874, va("^4IW6MP %s\0", CheatVersion));
 
 			void(*SetUnhandledExceptionFilter_Game)(LPTOP_LEVEL_EXCEPTION_FILTER obj) = (void(*)(LPTOP_LEVEL_EXCEPTION_FILTER))0x8272CDB8;
 			SetUnhandledExceptionFilter_Game(OurCrashHandler);
@@ -151,13 +153,14 @@ DWORD WINAPI InitThread()
 			CG_VisionSetStartLerp_ToDetour = GetDetour();
 			CL_DisconnectDetour = GetDetour();
 			CL_CreateNewCommandDetour = GetDetour();
+			R_AddCmdDrawQuadPicDetour = GetDetour();
 
 			xbOHookFunction(XAM_191Detour, (void*)addr->XAM_191, (void*)XAM_191Hook);
 			xbOHookFunction(R_EndFrameDetour, (void*)addr->R_EndFrame, (void*)R_EndFrameHook);
 			SCR_DrawScreenFieldStub = (pSCR_DrawScreenFieldStub)xbOHookFunction(SCR_DrawScreenFieldDetour, (void*)addr->SCR_DrawScreenField, (void*)SCR_DrawScreenFieldHook);
-			CL_WritePacketStub = (pCL_WritePacketStub)xbOHookFunction(CL_WritePacketDetour, (void*)0x822D68C0, (void*)CL_WritePacketHook);
-			CL_CreateNewCommandStub = (pCL_CreateNewCommand)xbOHookFunction(CL_CreateNewCommandDetour, (void*)0x822D67E8, (void*)CL_CreateNewCommandHook);
-
+			CL_WritePacketStub = (pCL_WritePacketStub)xbOHookFunction(CL_WritePacketDetour, (void*)addr->CL_WritePacket, (void*)CL_WritePacketHook);
+			CL_CreateNewCommandStub = (pCL_CreateNewCommandStub)xbOHookFunction(CL_CreateNewCommandDetour, (void*)addr->CL_CreateNewCommand, (void*)CL_CreateNewCommandHook);
+			R_AddCmdDrawQuadPicStub = (pR_AddCmdDrawQuadPicStub)xbOHookFunction(R_AddCmdDrawQuadPicDetour, (void*)0x8266D5F0, (void*)R_AddCmdDrawQuadPicHook);
 			CG_VisionSetStartLerp_ToStub = (pCG_VisionSetStartLerp_ToStub)xbOHookFunction(CG_VisionSetStartLerp_ToDetour, (void*)addr->CG_VisionSetStartLerp_To, (void*)CG_VisionSetStartLerp_ToHook);
 			CL_DisconnectStub = (pCL_DisconnectStub)xbOHookFunction(CL_DisconnectDetour, (void*)addr->CL_Disconnect, (void*)CL_DisconnectHook);
 			//CG_ObituaryStub = (pCG_ObituaryStub)xbOHookFunction(CG_ObituaryDetour, (void*)addr->CG_Obituary, (void*)CG_ObituaryHook);

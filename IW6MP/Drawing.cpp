@@ -176,9 +176,9 @@ void DrawWrappedText(const char *text, const char* fontname, float x, float y, f
 	xAlignMode = textAlignMode & 3;
 	xa = x;
 	ya = y;
-
 	targetLineWidth = w;
 	p = text;
+
 	while (*p)
 	{
 		const char *(__cdecl *R_TextLineWrapPosition)(const char *text, int bufferSize, int pixelsAvailable, int font, float scale) = (const char *(__cdecl*)(const char *text, int bufferSize, int pixelsAvailable, int font, float scale))addr->R_TextLineWrapPosition;
@@ -225,50 +225,4 @@ float UI_DrawWrappedText(const char *text, const char* font, float x, float y, f
 		return textRect.h;
 	}
 	return 0;
-}
-
-void R_AddCmdDrawStretchPicRotateST(float x, float y, float w, float h, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material)
-{
-	int r11 = *(DWORD*)0x8431C270;
-	if ((signed int)(((*(DWORD *)(r11 + 8) - *(DWORD *)(r11 + 4)) + *(DWORD*)0x84445380) - 0x2000) >= 0x40)
-	{
-		int r31 = (*(DWORD*)(r11)+*(DWORD*)(r11 + 0x4));
-
-		*(DWORD*)(r11 + 0x4) = (*(DWORD*)(r11 + 0x4) + 0x40);
-		*(DWORD*)(r11 + 0xC) = r31;
-		*(WORD*)(r31) = 0xC;
-		*(WORD*)(r31 + 0x2) = 0x40;
-		Material* materialPointer = material;
-		if (!material)
-			materialPointer = *(Material**)0x842BE2AC;
-		*(float*)(r31 + 0x8) = x;
-		*(Material**)(r31 + 0x4) = materialPointer;
-		DWORD* r4 = (DWORD *)(r31 + 0x38);
-		*(float*)(r31 + 0xC) = y;
-		*(float*)(r31 + 0x10) = w;
-		*(float*)(r31 + 0x14) = h;
-		*(float*)(r31 + 0x18) = centerS;
-		*(float*)(r31 + 0x1C) = centerT;
-		*(float*)(r31 + 0x20) = radiusST;
-		*(float*)(r31 + 0x24) = scaleFinalS;
-		*(float*)(r31 + 0x28) = s1;
-		*(float*)(r31 + 0x2C) = t1;
-		*(float*)(r31 + 0x30) = s2;
-		*(float*)(r31 + 0x34) = t2;
-		if (colour)
-			((void(*)(...))addr->R_ConvertColorToBytes)(colour, r4); //R_ConvertColorToBytes
-		else
-			*r4 = -1;
-		((void(*)(...))addr->AngleNormalize360)(Angle); //Normalize Angle
-		*(float*)(r31 + 0x3C) = Angle;
-	}
-	else
-		*(DWORD*)(r11 + 0xC) = 0;
-}
-
-void CL_DrawStretchPicRotatedST(int scrPlace, float x, float y, float w, float h, int horzAlign, int vertAlign, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material)
-{
-	//((void(*)(...))0x82315010)(scrPlace, &x, &y, &w, &h, horzAlign, vertAlign);
-	((void(*)(...))0x8265A6C0)(material, &s1, &t1, &s2, &t2);
-	R_AddCmdDrawStretchPicRotateST(x, y, w, h, centerS, centerT, radiusST, scaleFinalS, s1, t1, s2, t2, Angle, colour, material);
 }

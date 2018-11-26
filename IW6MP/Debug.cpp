@@ -19,7 +19,7 @@ char* StanceToText(int client)
 int CurrentIndex;
 void DrawDebug()
 {
-	UiContext uicontext = *(UiContext*)0x83D51E20;
+	UiContext uicontext = *(UiContext*)addr->_0x83D51E20;
 	int CurrentIndex = 0;
 	char Buffer[0x200];
 

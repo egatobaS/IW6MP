@@ -137,6 +137,9 @@
     <ClCompile Include="Aimbot.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="R_AddCmdDrawQuadPic.cpp">
+      <Filter>Source Files\Hook</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LoadCFG.h">
@@ -218,6 +221,9 @@
       <Filter>Header Files\Hook</Filter>
     </ClInclude>
     <ClInclude Include="XAM_191.h">
+      <Filter>Header Files\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="R_AddCmdDrawQuadPic.h">
       <Filter>Header Files\Hook</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,6 +12,9 @@ const char* Real_SL_ConvertToString(unsigned int stringValue);
 unsigned int Real_SL_GetString(const char* str, unsigned int user);
 unsigned int Real_SL_GetStringOfSize(const char *str, int user, int length, int type);
 
+void Real_RandomBulletDir(int* randSeed, float *x, float *y);
+float Real_CG_GoodRandomFloat(int *pHoldrand);
+int Real_TransformSeed(int *pHoldrand);
 int Real_Dvar_FindVar(const char* Dvar);
 void Real_Dvar_SetStringByName(const char* Dvar, const char*  val);
 void Real_Dvar_SetBool(const char* Dvar, bool val);
@@ -41,7 +44,14 @@ void Real_SetTextRight(const char *text, const char* font, float x, float y, flo
 void Real_SetTextCentered(const char *text, const char* font, float x, float y, float xScale, float yScale, const float R, const float G, const float B, const float A);
 void Real_R_AddCmdDrawStretchPicRotateXY(float x, float y, float w, float h, float xScale, float yScale, float xay, float yay, float Angle, float *color, const char* material);
 
+void Real_CL_DrawStretchPicRotatedST(int scrPlace, float x, float y, float w, float h, int horzAlign, int vertAlign, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material);
+void Real_R_AddCmdDrawStretchPicRotateST(float x, float y, float w, float h, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material);
+
 #endif
+
+void(*RandomBulletDir)(int* randSeed, float *x, float *y);
+float(*CG_GoodRandomFloat)(int *pHoldrand);
+int(*TransformSeed)(int *pHoldrand);
 
 int(*ApplyPatches)();
 Detour* (*GetDetour)();
@@ -79,6 +89,9 @@ void(*R_AddCmdDrawStretchPicRotateXY)(float x, float y, float w, float h, float 
 void(*SetTextCentered)(const char *text, const char* font, float x, float y, float xScale, float yScale, const float R, const float G, const float B, const float A);
 void(*SetTextRight)(const char *text, const char* font, float x, float y, float xScale, float yScale, const float R, const float G, const float B, const float A);
 Material* (*Material_RegisterHandle)(const char* name, int imageTrack);
+void(*CL_DrawStretchPicRotatedST)(int scrPlace, float x, float y, float w, float h, int horzAlign, int vertAlign, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material);
+void(*R_AddCmdDrawStretchPicRotateST)(float x, float y, float w, float h, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material);
+
 
 __int64 __declspec(naked) HvxGetVersion(unsigned int key, __int64 type, __int64 SourceAddress, __int64 DestAddress, __int64 lenInBytes)
 {
@@ -134,7 +147,6 @@ void LoadAddresses()
 	SL_ConvertToString = (const char*(*)(unsigned int))Real_SL_ConvertToString;
 	SL_GetString = (unsigned int(*)(const char*, unsigned int))Real_SL_GetString;
 	SL_GetStringOfSize = (unsigned int(*)(const char *, int, int, int))Real_SL_GetStringOfSize;
-
 	Dvar_FindVar = (int(*)(const char* Dvar))Real_Dvar_FindVar;
 	Dvar_SetStringByName = (void(*)(const char* Dvar, const char*  val))Real_Dvar_SetStringByName;
 	Dvar_SetBool = (void(*)(const char* Dvar, bool val))Real_Dvar_SetBool;
@@ -149,7 +161,6 @@ void LoadAddresses()
 	getStructures = (bool(*)(int**, int**, int**, int**, int**, int**))Real_getStructures;
 	ApplyPatches = (int(*)())ApplyGamePatches;
 	GetAsyncKeyState = (bool(*)(DWORD KEY))Real_GetAsyncKeyState;
-
 	TextHeight = (int(*)(const char* font, float scale))Real_TextHeight;
 	TextWidth = (int(*)(const char* text, const char* font))Real_TextWidth;
 	R_RegisterFont = (int(*)(const char* name, int imageTrack))Real_R_RegisterFont;
@@ -159,11 +170,15 @@ void LoadAddresses()
 	R_AddCmdDrawText = (void(*)(const char* Text, int MaxCharacters, int Font, float X, float Y, float XScale, float YScale, float Angle, float* Color, int Style))Real_R_AddCmdDrawText;
 	R_TextHeight = (int(*)(int font))Real_R_TextHeight;
 	R_TextWidth = (int(*)(const char* text, int maxchars, int font))Real_R_TextWidth;
-
 	R_AddCmdDrawStretchPicRotateXY = (void(*)(float x, float y, float w, float h, float xScale, float yScale, float xay, float yay, float Angle, float *color, const char* material))Real_R_AddCmdDrawStretchPicRotateXY;
 	SetTextCentered = (void(*)(const char *text, const char* font, float x, float y, float xScale, float yScale, const float R, const float G, const float B, const float A))Real_SetTextCentered;
 	SetTextRight = (void(*)(const char *text, const char* font, float x, float y, float xScale, float yScale, const float R, const float G, const float B, const float A))Real_SetTextRight;
 	Material_RegisterHandle = (Material* (*)(const char* name, int imageTrack))Real_Material_RegisterHandle;
+	RandomBulletDir = (void(*)(int* randSeed, float *x, float *y))Real_RandomBulletDir;
+	CG_GoodRandomFloat = (float(*)(int *pHoldrand))Real_CG_GoodRandomFloat;
+	TransformSeed = (int(*)(int *pHoldrand))Real_TransformSeed;
+	CL_DrawStretchPicRotatedST = (void(*)(int scrPlace, float x, float y, float w, float h, int horzAlign, int vertAlign, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material))Real_CL_DrawStretchPicRotatedST;
+	R_AddCmdDrawStretchPicRotateST = (void(*)(float x, float y, float w, float h, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material))Real_R_AddCmdDrawStretchPicRotateST;
 
 	addr = new addr_s;
 	addr->SetAddresses();
@@ -193,7 +208,6 @@ void LoadAddresses()
 		SL_ConvertToString = (const char*(*)(unsigned int))(void*)ReverseInt((int)Game_Functions->SL_ConvertToString);
 		SL_GetString = (unsigned int(*)(const char*, unsigned int))(void*)ReverseInt((int)Game_Functions->SL_GetString);
 		SL_GetStringOfSize = (unsigned int(*)(const char *, int, int, int))(void*)ReverseInt((int)Game_Functions->SL_GetStringOfSize);
-
 		Dvar_FindVar = (int(*)(const char* Dvar))(void*)ReverseInt((int)Game_Functions->Dvar_FindVar);
 		Dvar_SetStringByName = (void(*)(const char* Dvar, const char*  val))(void*)ReverseInt((int)Game_Functions->Dvar_SetStringByName);
 		Dvar_SetBool = (void(*)(const char* Dvar, bool val))(void*)ReverseInt((int)Game_Functions->Dvar_SetBool);
@@ -208,7 +222,6 @@ void LoadAddresses()
 		getStructures = (bool(*)(int**, int**, int**, int**, int**, int**))(void*)ReverseInt((int)Game_Functions->getStructures);
 		ApplyPatches = (int(*)())(void*)ReverseInt((int)Game_Functions->ApplyPatches);
 		GetAsyncKeyState = (bool(*)(DWORD KEY))(void*)ReverseInt((int)Game_Functions->GetAsyncKeyState);
-
 		TextHeight = (int(*)(const char* font, float scale))(void*)ReverseInt((int)Game_Functions->TextHeight);
 		TextWidth = (int(*)(const char* text, const char* font))(void*)ReverseInt((int)Game_Functions->TextWidth);
 		R_RegisterFont = (int(*)(const char* name, int imageTrack))(void*)ReverseInt((int)Game_Functions->R_RegisterFont);
@@ -218,11 +231,15 @@ void LoadAddresses()
 		R_AddCmdDrawText = (void(*)(const char* Text, int MaxCharacters, int Font, float X, float Y, float XScale, float YScale, float Angle, float* Color, int Style))(void*)ReverseInt((int)Game_Functions->R_AddCmdDrawText);
 		R_TextHeight = (int(*)(int font))(void*)ReverseInt((int)Game_Functions->R_TextHeight);
 		R_TextWidth = (int(*)(const char* text, int maxchars, int font))(void*)ReverseInt((int)Game_Functions->R_TextWidth);
-
 		R_AddCmdDrawStretchPicRotateXY = (void(*)(float x, float y, float w, float h, float xScale, float yScale, float xay, float yay, float Angle, float *color, const char* material))(void*)ReverseInt((int)Game_Functions->R_AddCmdDrawStretchPicRotateXY);
 		SetTextCentered = (void(*)(const char *text, const char* font, float x, float y, float xScale, float yScale, const float R, const float G, const float B, const float A))(void*)ReverseInt((int)Game_Functions->SetTextCentered);
 		SetTextRight = (void(*)(const char *text, const char* font, float x, float y, float xScale, float yScale, const float R, const float G, const float B, const float A))(void*)ReverseInt((int)Game_Functions->SetTextRight);
 		Material_RegisterHandle = (Material* (*)(const char* name, int imageTrack))(void*)ReverseInt((int)Game_Functions->Material_RegisterHandle);
+		RandomBulletDir = (void(*)(int* randSeed, float *x, float *y))(void*)ReverseInt((int)Game_Functions->RandomBulletDir);
+		CG_GoodRandomFloat = (float(*)(int *pHoldrand))(void*)ReverseInt((int)Game_Functions->CG_GoodRandomFloat);
+		TransformSeed = (int(*)(int *pHoldrand))(void*)ReverseInt((int)Game_Functions->TransformSeed);
+		CL_DrawStretchPicRotatedST = (void(*)(int scrPlace, float x, float y, float w, float h, int horzAlign, int vertAlign, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material))(void*)ReverseInt((int)Game_Functions->CL_DrawStretchPicRotatedST);
+		R_AddCmdDrawStretchPicRotateST = (void(*)(float x, float y, float w, float h, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material))(void*)ReverseInt((int)Game_Functions->R_AddCmdDrawStretchPicRotateST);
 	}
 
 #endif	
@@ -453,24 +470,80 @@ void ApplyGamePatches()
 	if(rate != 0)
 		*(int*)(rate + 0xC) = 25000; //rate
 
-	//version number 
-	//*(int*)(0x822ECB84) = addr->_0x390A018C; //0x390A0194
-
 	//disable impacts
 	*(int*)0x822C73C0 = 0x4E800020;
 	*(int*)0x82385B38 = 0x4E800020;
 
 	//Misc
 	*(char*)(*(int*)(0x82ADE840) + 0x0C) = 0x01; //cg_scoreboardPingText
+}
 
-	//offensive clan tags
-	//*(int*)(0x82309A30) = addr->_0x38600001;
-	//*(int*)(0x82182C10) = addr->_0x38600001;
-	//*(int*)(0x82182C14) = addr->_0x4E800020;
-	//*(int*)(0x82309B84) = addr->_0x60000000;
-	//*(int*)(0x82309B90) = addr->_0x60000000;
-	//*(int*)(0x8217E8D8) = addr->_0x38600001;
-	//*(int*)(0x8247C590) = addr->_0x38600001;
+int Real_TransformSeed(int *pHoldrand)
+{
+	*pHoldrand = 214013 * (214013 * (214013 * (214013 * *pHoldrand + 2531011) + 2531011) + 2531011) + 2531011;
+
+	return *pHoldrand;
+}
+
+float Real_CG_GoodRandomFloat(int *pHoldrand)
+{
+	/* Generating random value based on seed */
+	unsigned int r11 = 214013 * *pHoldrand + 2531011;
+	*pHoldrand = r11; /* Applying value to seed for next usage */
+	return (r11 >> 17) * 0.000030517578; /* Returning shifted value */
+}
+
+void Real_RandomBulletDir(int* randSeed, float *x, float *y)
+{
+	float f26 = (Real_CG_GoodRandomFloat(randSeed) * 360.0f) * (M_PI / 180.0f);
+	float f28 = Real_CG_GoodRandomFloat(randSeed);
+	*x = f28 * cosf(f26); // sin
+	*y = f28 * sinf(f26); // cos
+}
+
+void Real_R_AddCmdDrawStretchPicRotateST(float x, float y, float w, float h, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material)
+{
+	int r11 = *(DWORD*)addr->_0x8431C270;
+	if ((signed int)(((*(DWORD *)(r11 + 8) - *(DWORD *)(r11 + 4)) + *(DWORD*)addr->_0x84445380) - addr->_0x00002000) >= addr->_0x00000040)
+	{
+		int r31 = (*(DWORD*)(r11)+*(DWORD*)(r11 + addr->_0x00000004));
+
+		*(DWORD*)(r11 + addr->_0x00000004) = (*(DWORD*)(r11 + addr->_0x00000004) + addr->_0x00000040);
+		*(DWORD*)(r11 + addr->_0x0000000C) = r31;
+		*(WORD*)(r31) = addr->_0x0000000C;
+		*(WORD*)(r31 + addr->_0x00000002) = addr->_0x00000040;
+		Material* materialPointer = material;
+		if (!material)
+			materialPointer = *(Material**)addr->_0x842BE2AC;
+		*(float*)(r31 + addr->_0x00000008) = x;
+		*(Material**)(r31 + addr->_0x00000004) = materialPointer;
+		DWORD* r4 = (DWORD *)(r31 + addr->_0x00000038);
+		*(float*)(r31 + addr->_0x0000000C) = y;
+		*(float*)(r31 + addr->_0x00000010) = w;
+		*(float*)(r31 + addr->_0x00000014) = h;
+		*(float*)(r31 + addr->_0x00000018) = centerS;
+		*(float*)(r31 + addr->_0x0000001C) = centerT;
+		*(float*)(r31 + addr->_0x00000020) = radiusST;
+		*(float*)(r31 + addr->_0x00000024) = scaleFinalS;
+		*(float*)(r31 + addr->_0x00000028) = s1;
+		*(float*)(r31 + addr->_0x0000002C) = t1;
+		*(float*)(r31 + addr->_0x00000030) = s2;
+		*(float*)(r31 + addr->_0x00000034) = t2;
+		if (colour)
+			((void(*)(...))addr->R_ConvertColorToBytes)(colour, r4); //R_ConvertColorToBytes
+		else
+			*r4 = -1;
+		((void(*)(...))addr->AngleNormalize360)(Angle); //Normalize Angle
+		*(float*)(r31 + addr->_0x0000003C) = Angle;
+	}
+	else
+		*(DWORD*)(r11 + addr->_0x0000000C) = 0;
+}
+
+void Real_CL_DrawStretchPicRotatedST(int scrPlace, float x, float y, float w, float h, int horzAlign, int vertAlign, float centerS, float centerT, float radiusST, float scaleFinalS, float s1, float t1, float s2, float t2, float Angle, float* colour, Material* material)
+{
+	((void(*)(...))addr->_0x8265A6C0)(material, &s1, &t1, &s2, &t2);
+	Real_R_AddCmdDrawStretchPicRotateST(x, y, w, h, centerS, centerT, radiusST, scaleFinalS, s1, t1, s2, t2, Angle, colour, material);
 }
 
 #endif

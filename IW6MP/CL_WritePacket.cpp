@@ -6,7 +6,7 @@
 #include "ESP.h"
 
 pCL_WritePacketStub CL_WritePacketStub;
-pCL_CreateNewCommand CL_CreateNewCommandStub;
+pCL_CreateNewCommandStub CL_CreateNewCommandStub;
 
 #define ANGLE_DOWN 69.99999999999999f
 #define ANGLE_UP -69.99999999999999f

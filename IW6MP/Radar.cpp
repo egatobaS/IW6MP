@@ -238,7 +238,7 @@ void DrawMapOnRadar()
 		f8 = (cg->compassMapWorldSize[0] / cg->compassMapWorldSize[1]) * f7;
 	}
 
-	CL_DrawStretchPicRotatedST(0x82732100,
+	CL_DrawStretchPicRotatedST(addr->_0x82732100,
 		RadarCenter.x - (RadarSize * 2 / 2),
 		RadarCenter.y - (RadarSize * 2 / 2),
 		RadarSize * 2,
@@ -299,7 +299,7 @@ struct CompassActor
 
 CompassActor* CG_CompassGetActor(int localclientnum, int Index)
 {
-	return (CompassActor*)(0x82AC1188 + (localclientnum * 0xD10) + (Index * 0x4C));
+	return (CompassActor*)(addr->_0x82AC1188 + (localclientnum * addr->_0x00000D10) + (Index * addr->_0x0000004C));
 }
 
 bool CL_ClientIsInMyParty(int localclientnum, int Client)
@@ -347,8 +347,8 @@ void CG_CompassDrawFriendlies()
 
 		if (CL_ClientIsInMyParty(0, i))
 		{
-			if (compassActor->perks[1] & 0x40000)
-				DrawOnRadarYaw((Material*)(0x82ACCD00 + 0x3BC), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+			if (compassActor->perks[1] & addr->_0x00040000)
+				DrawOnRadarYaw((Material*)(addr->_0x82ACCD00 + 0x3BC), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
 			else
 			{
 				if (compassActor->beginFadeTime && ((compassActor->beginFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
@@ -361,8 +361,8 @@ void CG_CompassDrawFriendlies()
 		}
 		else
 		{
-			if (compassActor->perks[1] & 0x40000)
-				DrawOnRadarYaw((Material*)(0x82ACCD00 + 0x3BC), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+			if (compassActor->perks[1] & addr->_0x00040000)
+				DrawOnRadarYaw((Material*)(addr->_0x82ACCD00 + addr->_0x000003BC), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
 			else
 			{
 				if (compassActor->beginFadeTime && ((compassActor->beginFadeTime + (Dvar_GetInt("compassSoundPingFadeTime") * 1000)) >= cg->time))
@@ -406,8 +406,8 @@ void CG_CompassDrawEnemies()
 		W *= 1.5;
 		H *= 1.5;
 
-		if (compassActor->perks[1] & 0x40000)
-			DrawOnRadarYaw((Material*)(0x82ACCD00 + 0x3B8), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
+		if (compassActor->perks[1] & addr->_0x00040000)
+			DrawOnRadarYaw((Material*)(0x82ACCD00 + addr->_0x000003B8), W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
 		else
 			DrawOnRadarYaw("cb_compassping_enemyfacingdirection", W, H, 1, 1, 1, 1, cg->refdefViewAngles.y - compassActor->lastYaw, (Vector3)compassActor->lastPos);
 	}
@@ -510,7 +510,7 @@ struct CompassPlane
 
 CompassPlane* CG_GetCompassPlane(int localclient, int index)
 {
-	return (CompassPlane*)(0x82AC0EC8 + (localclient * 0x160) + (index * 0x2C));
+	return (CompassPlane*)(addr->_0x82AC0EC8 + (localclient *  addr->_0x00000160) + (index *  addr->_0x0000002C));
 }
 
 void CG_CompassDrawPlanes()
@@ -551,7 +551,7 @@ struct CompassMissile
 
 CompassMissile* CG_GetCompassMissile(int localclient, int index)
 {
-	return (CompassMissile*)(0x82AC0008 + (localclient * 0xE0) + (index * 0x1C));
+	return (CompassMissile*)(addr->_0x82AC0008 + (localclient *  addr->_0x000000E0) + (index *  addr->_0x0000001C));
 }
 
 void CG_CompassDrawMissiles()
@@ -659,7 +659,7 @@ struct VehicleDef
 
 VehicleClient* VehicleCl_GetClientFromIndex(int localclient, int index)
 {
-	return (VehicleClient*)(0x840F07D0 + (((localclient << 3) + index) * 0x88));
+	return (VehicleClient*)(addr->_0x840F07D0 + (((localclient << 3) + index) *  addr->_0x00000088));
 }
 
 bool VehicleCl_IsClientValid(int localclient, VehicleClient* VC)
@@ -715,7 +715,7 @@ struct CompassTurret
 
 CompassTurret* CG_GetCompassTurret(int localclient, int index)
 {
-	return (CompassTurret*)(((localclient * 0x680) + 0x82AC01C8) + (index * 0x34));
+	return (CompassTurret*)(((localclient *  addr->_0x00000680) + addr->_0x82AC01C8) + (index *  addr->_0x00000034));
 }
 
 void CG_CompassDrawTurrets()
@@ -747,12 +747,12 @@ void DrawObjective(objective_t* objective)
 	if (objective->state == OBJST_CURRENT || objective->state == OBJST_ACTIVE)
 	{
 		float w, h;
-		((void(*)(...))0x8225FB08)(0, &w, &h); //CalcCompassPointerSize
+		((void(*)(...)) addr->_0x8225FB08)(0, &w, &h); //CalcCompassPointerSize
 
 		w *= 1.5;
 		h *= 1.5;
 
-		Material* material = ((Material*(*)(...))0x8228B8F0)(0, objective->icon, 0); //CG_ObjectiveIcon(int localClientNum, int icon, int type)
+		Material* material = ((Material*(*)(...)) addr->_0x8228B8F0)(0, objective->icon, 0); //CG_ObjectiveIcon(int localClientNum, int icon, int type)
 
 		if (!material)
 			return;

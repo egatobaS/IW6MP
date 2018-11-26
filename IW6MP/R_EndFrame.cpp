@@ -20,28 +20,28 @@ typedef struct
 
 void R_EndFrame()
 {
-	((void(*)(...))0x8266ABA8)(); //R_AddCmdEndOfList
+	((void(*)(...)) addr->_0x8266ABA8)(); //R_AddCmdEndOfList
 
-	*(int*)(0x8431C278) = ((*(int*)(0x8431C278) + -1) & 1);
+	*(int*)(addr->_0x8431C278) = ((*(int*)(addr->_0x8431C278) + -1) & 1);
 
-	GfxBackEndData* Current = *(GfxBackEndData**)(*(int*)(0x8431C274) + 0x1868);
+	GfxBackEndData* Current = *(GfxBackEndData**)(*(int*)(addr->_0x8431C274) + addr->_0x00001868);
 
 	Current->usedTotal = 0;
 	Current->usedCritical = 0;
 	Current->lastCmd = 0;
 
-	*(int*)(0x842BC180) = 0;
-	*(int*)(0x842BC184) = 0;
-	*(int*)(0x842BC188) = 0;
-	*(int*)(0x842BC18C) = 0;
+	*(int*)( addr->_0x842BC180) = 0;
+	*(int*)( addr->_0x842BC184) = 0;
+	*(int*)( addr->_0x842BC188) = 0;
+	*(int*)( addr->_0x842BC18C) = 0;
 
-	if (!(((int(*)(...))0x82482168)() & 0xFF)) //Sys_IsMainThread
+	if (!(((int(*)(...)) addr->_0x82482168)() &  addr->_0x000000FF)) //Sys_IsMainThread
 		return;
 
-	if (*(int*)0x844DD004)
+	if (*(int*)addr->_0x844DD004)
 		return;
 
-	((void(*)(...))0x82686220)(0x21); //R_WaitWorkerCmdsOfType
+	((void(*)(...)) addr->_0x82686220)(addr->_0x00000021); //R_WaitWorkerCmdsOfType
 }
 
 void R_EndFrameHook()

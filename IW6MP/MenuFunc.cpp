@@ -143,26 +143,26 @@ void ModLooper()
 	CE.ShouldRunXAM_191 = ShouldHookRun();
 
 	//Mods
-	*(float*)(*(int*)(0x82ACCADC) + 0xC) = CE.Fov;
+	*(float*)(*(int*)(addr->_0x82ACCADC) + 0xC) = CE.Fov;
 	Dvar_SetBool("camera_thirdPerson", CE.ThirdPerson);
-	*(int*)(0x822583D0) = CE.NoSway ? 0x60000000 : 0x4BFFEAA1;
-	*(int*)(0x82258BEC) = CE.NoSway ? 0x60000000 : 0x4BFFFBA5;
-	*(int*)(0x82258BE0) = CE.NoFlinch ? 0x60000000 : 0x4BFFDED9;
-	*(int*)(0x82258BF8) = CE.NoFlinch ? 0x60000000 : 0x4BFFFD49;
-	*(int*)(0x82258C04) = CE.NoFlinch ? 0x60000000 : 0x4BFFFEC5;
-	*(int*)0x822C9344 = CE.NoRecoil ? 0x60000000 : 0x4BF8AE4D;
+	*(int*)( addr->_0x822583D0) = CE.NoSway ?  addr->_0x60000000 :  addr->_0x4BFFEAA1;
+	*(int*)( addr->_0x82258BEC) = CE.NoSway ?  addr->_0x60000000 :  addr->_0x4BFFFBA5;
+	*(int*)( addr->_0x82258BE0) = CE.NoFlinch ?  addr->_0x60000000 :  addr->_0x4BFFDED9;
+	*(int*)( addr->_0x82258BF8) = CE.NoFlinch ?  addr->_0x60000000 :  addr->_0x4BFFFD49;
+	*(int*)( addr->_0x82258C04) = CE.NoFlinch ?  addr->_0x60000000 :  addr->_0x4BFFFEC5;
+	*(int*)addr->_0x822C9344 = CE.NoRecoil ? addr->_0x60000000 : addr->_0x4BF8AE4D;
 
-	*(int*)0x822C73C0 = CE.Impacts ? 0x7D8802A6 : 0x4E800020;
-	*(int*)0x82385B38 = CE.Impacts ? 0x7D8802A6 : 0x4E800020;
+	*(int*) addr->_0x822C73C0 = CE.Impacts ?  addr->_0x7D8802A6 :  addr->_0x4E800020;
+	*(int*) addr->_0x82385B38 = CE.Impacts ?  addr->_0x7D8802A6 :  addr->_0x4E800020;
 
-	*(int*)(0x822654C8) = CE.UAV ? 0x3B600001 : 0x551B7FFE;
-	*(char*)(0x8227F19B) = CE.Laser ? 0x01 : 0x00;
+	*(int*)( addr->_0x822654C8) = CE.UAV ? addr->_0x3B600001 : addr->_0x551B7FFE;
+	*(char*)(addr->_0x8227F19B) = CE.Laser ? 0x01 : 0x00;
 
 	//Remove Game Radar
 	bool ShouldDisableRadar = (CE.ExternalRadar && (clientUIActive->OpenMenu != 0x40) && !CG_IsSelectingLocation(0));
-	*(int*)(0x8220D778) = ShouldDisableRadar ? 0x4E800020 : 0x7D8802A6; //LUIElement_CompassRender
-	*(int*)(0x8220DA60) = ShouldDisableRadar ? 0x4E800020 : 0x7D8802A6; //LUIElement_MinimapElementsRender
-	*(int*)(0x8220D8B0) = ShouldDisableRadar ? 0x4E800020 : 0x7D8802A6; //LUIElement_MinimapRender
+	*(int*)( addr->_0x8220D778) = ShouldDisableRadar ?  addr->_0x4E800020 :  addr->_0x7D8802A6; //LUIElement_CompassRender
+	*(int*)( addr->_0x8220DA60) = ShouldDisableRadar ?  addr->_0x4E800020 :  addr->_0x7D8802A6; //LUIElement_MinimapElementsRender
+	*(int*)( addr->_0x8220D8B0) = ShouldDisableRadar ?  addr->_0x4E800020 :  addr->_0x7D8802A6; //LUIElement_MinimapRender
 }
 
 int Looperwait, LooperTick;

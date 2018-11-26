@@ -135,6 +135,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuFunc.cpp" />
     <ClCompile Include="Radar.cpp" />
+    <ClCompile Include="R_AddCmdDrawQuadPic.cpp" />
     <ClCompile Include="R_AddCmdDrawStretchPic.cpp" />
     <ClCompile Include="R_EndFrame.cpp" />
     <ClCompile Include="SCR_DrawScreenField.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuFunc.h" />
     <ClInclude Include="Radar.h" />
+    <ClInclude Include="R_AddCmdDrawQuadPic.h" />
     <ClInclude Include="R_AddCmdDrawStretchPic.h" />
     <ClInclude Include="R_EndFrame.h" />
     <ClInclude Include="SCR_DrawScreenField.h" />
