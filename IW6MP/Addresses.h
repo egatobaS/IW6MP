@@ -268,7 +268,7 @@ struct addr_s
 		CL_ClientIsInMyParty = 0x8228DC48;
 		CalcCompassFriendlySize = 0x8225FC18;
 		SERVER_ID = 0x82B55908;
-		BG_EvaluateTrajectory = 0x0;
+		BG_EvaluateTrajectory = 0x82229748;
 		CG_GetVelocity = 0x82237738;
 		Sys_EnterCriticalSection = 0x82573DC0;
 		Sys_LeaveCriticalSection = 0x82573DD8;

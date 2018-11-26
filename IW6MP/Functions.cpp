@@ -409,7 +409,7 @@ void PosPrediction(centity_s* TargetEntity, Vector3& BonePos, int Scale, bool No
 
 void BG_EvaluateTrajectory(trajectory_t* tr, int atTime, Vector3* result)
 {
-	void(*BG_EvaluateTrajectory)(trajectory_t* tr, int atTime, Vector3* result) = (void(*)(trajectory_t*, int, Vector3*))addr->BG_EvaluateTrajectory;
+	void(*BG_EvaluateTrajectory)(trajectory_t* tr, int atTime, Vector3* result) = (void(*)(trajectory_t*, int, Vector3*))0x82229748;
 	BG_EvaluateTrajectory(tr, atTime, result);
 }
 
@@ -600,22 +600,24 @@ void RunRiotChecks(int i)
 						if (!(Entity[cg->ClientNumber].prevState.eFlags & FLAG_CROUCHED) && !(Entity[cg->ClientNumber].prevState.eFlags & FLAG_PRONE) && (Distance < 1) && (Pitch > 24.0f))
 							CurrentRiotBone[i] = BONE_SET_ALL;
 						else if ((Pitch <= 70.0f) && (Pitch >= 40))
-							CurrentRiotBone[i] = BONE_SET_ALL;
+							CurrentRiotBone[i] = BONE_SET_NONE;
 						else if ((Pitch < -(25 / Distance)))
-							CurrentRiotBone[i] = BONE_SET_LEFT;
+							CurrentRiotBone[i] = BONE_SET_HIP;
 						else
 							CurrentRiotBone[i] = BONE_SET_NONE;
+
 					}
 					else if ((Yaw < 60.0f) && (Yaw >= 47.0f))
 						CurrentRiotBone[i] = BONE_SET_RIGHT;
 					else if ((Yaw < 80.0f) && (Yaw >= 60.0f))
 						CurrentRiotBone[i] = BONE_SET_HIP;
 					else if ((Yaw < 120.0f) && (Yaw >= 80.0f))
-						CurrentRiotBone[i] = BONE_SET_NO_HEAD;
+						CurrentRiotBone[i] = BONE_SET_HIP;
 					else if ((Yaw >= 120.0f))
 						CurrentRiotBone[i] = BONE_SET_ALL;
 					else
 						CurrentRiotBone[i] = BONE_SET_NONE;
+
 				}
 			}
 			else if (!(Entity[i].nextState.lerp.eFlags & FLAG_PRONE))
@@ -635,22 +637,22 @@ void RunRiotChecks(int i)
 					else if (Distance >= 4.11f)
 					{
 						if ((Pitch > 69.9f))
-							CurrentRiotBone[i] = BONE_SET_ALL;
+							CurrentRiotBone[i] = BONE_SET_NONE;
 						else if ((Pitch <= -5.9f) && (Pitch > -27.9f))
 							CurrentRiotBone[i] = BONE_SET_LEGS;
 						else if ((Pitch <= -27.9f) && (Pitch > -53.9f))
-							CurrentRiotBone[i] = BONE_SET_HIP_LEGS;
+							CurrentRiotBone[i] = BONE_SET_LEGS;
 						else if ((Pitch <= -53.9f) && (Pitch > -63.0f))
-							CurrentRiotBone[i] = BONE_SET_NO_HEAD;
+							CurrentRiotBone[i] = BONE_SET_HIP;
 						else if (Pitch <= -63.0f)
-							CurrentRiotBone[i] = BONE_SET_ALL;
+							CurrentRiotBone[i] = BONE_SET_HIP;
 						else
 							CurrentRiotBone[i] = BONE_SET_FEET;
 					}
 					else
 					{
 						if ((Pitch > 49.9f))
-							CurrentRiotBone[i] = BONE_SET_ALL;
+							CurrentRiotBone[i] = BONE_SET_NONE;
 						else if ((Pitch <= -5.9f) && (Pitch > -25.9f))
 							CurrentRiotBone[i] = BONE_SET_FEET;
 						else if ((Pitch <= -25.9f) && (Pitch > -40.0f))
@@ -660,7 +662,7 @@ void RunRiotChecks(int i)
 						else if ((Pitch <= -61.0f) && (Pitch > -67.0f))
 							CurrentRiotBone[i] = BONE_SET_NO_HEAD;
 						else if ((Pitch <= -67.0f))
-							CurrentRiotBone[i] = BONE_SET_ALL;
+							CurrentRiotBone[i] = BONE_SET_HIP;
 						else
 							CurrentRiotBone[i] = BONE_SET_LEFT;
 					}
@@ -682,10 +684,23 @@ void RunRiotChecks(int i)
 			if (Entity[i].prevState.eFlags & FLAG_CROUCHED)
 			{
 				if (((Yaw >= 184.0f) && (PlayerSide == LeftSide)) || ((Yaw >= 175.0f) && (PlayerSide == CenterSide)))
-					CurrentRiotBone[i] = BONE_SET_NONE;
+				{
+					Vector3 Velocity;
+					CG_GetPlayerVelocity(0, &Entity[i], &Velocity);
+
+					if (Velocity.x != 0.0f || Velocity.y != 0.0f || Velocity.z != 0.0f)
+						CurrentRiotBone[i] = BONE_SET_HIP;
+					else
+						CurrentRiotBone[i] = BONE_SET_NONE;
+
+				}
 				else if ((Yaw < 200.0f) && (Yaw > 193.0f) && (PlayerSide == RightSide))
 					CurrentRiotBone[i] = BONE_SET_RIGHT_ELBOW_KNEE;
-				else if (((Yaw < 193.0f) && (PlayerSide == RightSide)) || ((Yaw <= 127.0f) && (PlayerSide == LeftSide)) || ((Yaw < 140.0f) && (PlayerSide == CenterSide)))
+				else if (((Yaw < 193.0f) && (PlayerSide == RightSide)))
+					CurrentRiotBone[i] = BONE_SET_HIP;
+				else if (((Yaw <= 127.0f) && (PlayerSide == LeftSide)))
+					CurrentRiotBone[i] = BONE_SET_HIP;
+				else if (((Yaw < 140.0f) && (PlayerSide == CenterSide)))
 					CurrentRiotBone[i] = BONE_SET_ALL;
 				else if ((Yaw < 178.0f) && (Yaw > 156.0f) && (PlayerSide == LeftSide))
 					CurrentRiotBone[i] = BONE_SET_LEFT_LEG;
