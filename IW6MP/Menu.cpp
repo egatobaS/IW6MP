@@ -281,7 +281,7 @@ void CreateMenu()
 	const char* ESPTypeArray[] = { "None", "2D", "3D", "Filled", "Corner" };
 	AddStringArray("ESP Type", "Change the style of ESP.", &CE.ESPType, ESPTypeArray, 5);
 	AddSubMenuBranch("ESP Settings", "Edit ESP is drawn.", &Menu.MenuIDs.ESPSettings);
-	AddSubMenuBranch("Visions", "Change your current vision.", &Menu.MenuIDs.Visions);
+	//AddSubMenuBranch("Visions", "Change your current vision.", &Menu.MenuIDs.Visions);
 	AddSubMenuBranch("Debug Settings", "Draw various game information on your screen.", &Menu.MenuIDs.DebugSettings);
 
 

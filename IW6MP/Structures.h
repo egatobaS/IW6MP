@@ -867,24 +867,21 @@ struct CmdArgs
 	int totalUsedTextPool;//0x28E8
 };
 
-struct TraceCheckCount
-{
-	unsigned short global;
-	unsigned short *partitions;
-	unsigned short *brushes;
-};
-
 typedef char cbrush_t[0xB0];
 typedef char cmodel_t[0x4C];
 
 struct PhysGeomList;
 
+struct TraceCheckCount
+{
+	int global;
+	int *partitions;
+};
+
 struct TraceThreadInfo
 {
+	trace_t *results;
 	TraceCheckCount checkcount;
-	cbrush_t * box_brush;
-	cmodel_t * box_model;
-	PhysGeomList ** geoms;
 };
 
 struct tls_t

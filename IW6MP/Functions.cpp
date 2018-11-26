@@ -99,8 +99,8 @@ void CG_SetVision(int unk, char* vision, int duration)
 	if (ShouldHookRun())
 	{
 		user_strcpy(VisionSet, vision);
-		void(*CG_VisionSetStartLerp_To)(int r3, int r4, char* vision, int duration) = (void(*)(int, int, char*, int))addr->CG_VisionSetStartLerp_To;
-		CG_VisionSetStartLerp_To((*(int*)(addr->cg_s) + addr->_0x000C6448), unk, vision, duration);
+		void(*CG_VisionSetStartLerp_To)(int r3, int r4, char* vision, int duration, int) = (void(*)(int, int, char*, int, int))addr->CG_VisionSetStartLerp_To;
+		CG_VisionSetStartLerp_To((*(int*)(addr->cg_s) + addr->_0x000C6448), unk, vision, duration, *(int*)((*(int*)(addr->cg_s)) + 0x6D508));
 	}
 }
 
@@ -956,35 +956,26 @@ void Set_BGS_Pointer(unsigned int bgs)
 	*(unsigned int*)(TLS_Pointer + 0x08) = bgs;
 }
 
+
 DWORD WINAPI ExecuteAutoWall(LPVOID Params)
 {
 starThread:
 
 	static va_info_t va_buffer;
-	static cbrush_t box_brush;
-	static cmodel_t box_model;
-	static PhysGeomList* geoms;
-	static unsigned short partitions[0x39e6];
-	static unsigned short brushes[0x4888];
-	static TraceThreadInfo threadInfo = { { 0, partitions, brushes }, &box_brush, &box_model, &geoms };
-	static CmdArgs cmd_args;
-	static tls_t tls = { 0, &va_buffer, &env, &threadInfo, &cmd_args };
+	static trace_t results = { 0 };
+	static TraceCheckCount checkcount;
+	static TraceThreadInfo threadInfo = { &results, checkcount };
+	static tls_t tls = { 0, &va_buffer, &env, (TraceThreadInfo*)0x83E76FB0 };
 	
 	int tls_ptr = 0;
 	__asm mr tls_ptr, r13;
 	TLS_Pointer = *(int*)(tls_ptr);
-	
 	*(int*)(TLS_Pointer + 0x70) = (int)&tls;
-	//*(int*)(r29 + 0x08) = addr->_0x82F0CC88; //bgs
 	
 	int ret = setjmp(env);
 	
 	Mutex = true;
 	
-	cmd_args.nesting = -1;
-	cmd_args.totalUsedArgvPool = 0;
-	cmd_args.totalUsedTextPool = 0;
-
 	while (!KillThread)
 	{
 		__try
@@ -1041,7 +1032,7 @@ void GetWeaponSpread(float* Spread)
 
 void NoSpread(usercmd_s *cmd)
 {
-	if (!(ClientActive_t->flZoomProgress > 0.0f))
+	//if (!(ClientActive_t->flZoomProgress > 0.0f))
 	{
 		float Spread = 0.0f;
 		GetWeaponSpread(&Spread);
