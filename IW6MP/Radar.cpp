@@ -278,25 +278,6 @@ void DrawRadar()
 	}
 }
 
-struct CompassActor
-{
-	int lastUpdate; //0x00
-	float lastPos[3]; //0x04
-	float lastEnemyPos[3]; //0x10
-	float lastEnemyYaw; //0x1C
-	float lastVel; //0x20
-	float lastYaw; //0x24
-	int pingTime; //0x28
-	int beginFadeTime; //0x2C
-	int beginRadarFadeTime; //0x30
-	int beginVoiceFadeTime; //0x34
-	int flags; //0x38
-	unsigned int perks[2]; //0c3C
-	bool hadPerkRedBlip; //0x44
-	bool wasSighted; //0x45
-	int ownerNum; //0x48
-}; //0x4C
-
 CompassActor* CG_CompassGetActor(int localclientnum, int Index)
 {
 	return (CompassActor*)(addr->_0x82AC1188 + (localclientnum * addr->_0x00000D10) + (Index * addr->_0x0000004C));
@@ -319,7 +300,6 @@ void CG_CompassDrawFriendlies()
 	for (int i = 0; i < 36; i++)
 	{
 		CompassActor* compassActor = CG_CompassGetActor(0, i);
-		const char* mat;
 
 		if (!compassActor)
 			continue;
@@ -333,8 +313,8 @@ void CG_CompassDrawFriendlies()
 		if (cg->ps.clientNum == i)
 			continue;
 
-		//if (!(Entity[i].pose.eType & 1))
-		//	continue;
+		if (!(Entity[i].pose.eType & 1))
+			continue;
 
 		if ((compassActor->flags & 1))
 			continue;

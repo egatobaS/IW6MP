@@ -8,6 +8,7 @@ void DrawOnRadarYaw(const char* Material, float w, float h, float R, float G, fl
 void DrawOnRadar(const char* Text, Vector3 Location);
 void DrawMapOnRadar();
 void DrawRadar();
+CompassActor* CG_CompassGetActor(int localclientnum, int Index);
 bool CL_ClientIsInMyParty(int localclientnum, int Client);
 void CalcCompassFriendlySize(int CompassType, float* W, float* H);
 void CG_CompassDrawFriendlies();

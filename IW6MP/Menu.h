@@ -204,6 +204,7 @@ struct CE_s
 		bool DrawScavengerPacks;
 		bool DrawKillStreaks;
 		bool DrawDoggos;
+		bool DrawSquadMembers;
 		bool PlayerIndicator;
 		int PlayerIndicatorIcon;
 		int PlayerIndicatorSize[2];

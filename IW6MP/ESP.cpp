@@ -306,14 +306,116 @@ void Draw3DBox(Vector3 Centre, Vector3 Dimensions, Vector3 Angles, float R, floa
 		MakeESPLine(Centre, Nodes[iEdgePairs[i][0]].x, Nodes[iEdgePairs[i][0]].y, Nodes[iEdgePairs[i][0]].z, Nodes[iEdgePairs[i][1]].x, Nodes[iEdgePairs[i][1]].y, Nodes[iEdgePairs[i][1]].z, R, G, B, A);
 }
 
-void DrawESPBox(int Client, bool isdogo, RGBA *color = NULL, int owner = 0)
+void DrawESPBoxAlt(int Client, bool IsDog, const char* Name, float R, float G, float B, float A)
+{
+	float fHeight, fWidth; Vector2 Location; int distance = GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[Client].pose.Origin);
+
+	if (GetDimentions(Client, &fWidth, &fHeight, &Location))
+	{
+		if (CE.ESPType == ESP2D)
+		{
+			SetShader("white", (Location.x - (fWidth / 2)), (Location.y - fHeight), fWidth, 1, R, G, B, A);//top
+			SetShader("white", (Location.x - (fWidth / 2)), Location.y, fWidth, 1, R, G, B, A);//bottom
+			SetShader("white", (Location.x - (fWidth / 2)), (Location.y - fHeight), 1, fHeight, R, G, B, A);//left
+			SetShader("white", (Location.x + (fWidth / 2)), (Location.y - fHeight), 1, fHeight, R, G, B, A);//right
+		}
+		if (CE.ESPType == ESP3D)
+		{
+			Vector3 Angles = Entity[Client].nextState.lerp.apos.trBase;
+			Angles.x = 0;
+			Angles.z = 0;
+
+			Vector3 Center = Entity[Client].pose.Origin;
+
+			float length = 30.0f, width = 30.0f;
+			if (Entity[Client].nextState.lerp.eFlags & FLAG_PRONE)
+			{
+				length = 90.0f;
+				width = 45.0f;
+
+				Angles.y -= 20;
+
+				Vector3 NewAngle = Angles;
+				NewAngle.y -= 180;
+				Center = AnglesToForward(Center, NewAngle, 10);
+
+				NewAngle.y += 90;
+				Center = AnglesToForward(Center, NewAngle, 5);
+			}
+
+			Vector3 Dimentions(length, width, GetBoxHeight(Entity[Client]));
+
+			Draw3DBox(Center, Dimentions, Angles, R, G, B, A);
+		}
+		if (CE.ESPType == FB)
+		{
+			if (A > 0)
+				SetShader("white", (Location.x - (fWidth / 2)), (Location.y - fHeight), fWidth, fHeight, R, G, B, 0.2f);
+			SetShader("white", (Location.x - (fWidth / 2)), (Location.y - fHeight), fWidth, 1, 0, 0, 0, A);//top
+			SetShader("white", (Location.x - (fWidth / 2)), Location.y, fWidth, 1, 0, 0, 0, A);//bottom
+			SetShader("white", (Location.x - (fWidth / 2)), (Location.y - fHeight), 1, fHeight, 0, 0, 0, A);//left
+			SetShader("white", (Location.x + (fWidth / 2)), (Location.y - fHeight), 1, fHeight, 0, 0, 0, A);//right
+		}
+		if (CE.ESPType == Corner)
+		{
+			SetShader("white", (Location.x - (fWidth / 2)), (Location.y - fHeight), (fWidth / 4), 1, R, G, B, A);//top left
+			SetShader("white", ((Location.x + (fWidth / 2)) - (fWidth / 4)), (Location.y - fHeight), (fWidth / 4), 1, R, G, B, A);//top right
+			SetShader("white", (Location.x - (fWidth / 2)), Location.y, (fWidth / 4), 1, R, G, B, A);//bottom left
+			SetShader("white", ((Location.x + (fWidth / 2)) - (fWidth / 4)), Location.y, (fWidth / 4), 1, R, G, B, A);//bottom right
+
+			SetShader("white", (Location.x - (fWidth / 2)), (Location.y - fHeight), 1, (fHeight / 8), R, G, B, A);//left top
+			SetShader("white", (Location.x - (fWidth / 2)), (Location.y - (fHeight / 8)), 1, (fHeight / 8), R, G, B, A);//left bottom
+			SetShader("white", (Location.x + (fWidth / 2)), (Location.y - fHeight), 1, (fHeight / 8), R, G, B, A);//right top
+			SetShader("white", (Location.x + (fWidth / 2)), (Location.y - (fHeight / 8)), 1, (fHeight / 8), R, G, B, A);//right bottom
+		}
+
+		float fFontSize = (0.5 - (GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[Client].pose.Origin) / 100));
+
+		if (fFontSize < 0.3)
+			fFontSize = 0.3;
+
+		if (CE.ESPSettings.ESPName)
+			SetTextCenteredWithBackGround(Name, "normalfont", Location.x, ((Location.y + (!CE.ESPSettings.ESPDistance ? TextHeight("normalfont", fFontSize) : 0.0f)) - (fHeight + (TextHeight("normalfont", fFontSize) * 2)) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
+
+		if (CE.ESPSettings.ESPDistance)
+			SetTextCenteredWithBackGround(va("%im", distance), "normalfont", Location.x, (Location.y - (fHeight + (TextHeight("normalfont", fFontSize) * 1)) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
+
+		if (!IsDog)
+		{
+			if (CE.ESPSettings.ESPWeaponNames)
+			{
+				const char* WeaponName = GetWeaponName(Entity[Client].nextState.Weapon);
+				if (!cuser_strcmp(WeaponName, ""))
+					SetTextCenteredWithBackGround(WeaponName, "normalfont", Location.x, ((Location.y + 5) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
+				else
+					SetTextCenteredWithBackGround("none", "normalfont", Location.x, ((Location.y + 5) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
+			}
+			if (CE.ESPSettings.ESPWeaponShaders)
+			{
+				WeaponDef* weaponDef = BG_GetWeaponDef(Entity[Client].nextState.Weapon);
+				Material* shader = GetWeaponShader(Entity[Client].nextState.Weapon);
+				float fSize = (40 - (GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[Client].pose.Origin)));
+				if (fSize < 20)
+					fSize = 20;
+				if (shader && weaponDef)
+				{
+					if (weaponDef->killIconRatio == WEAPON_ICON_RATIO_1TO1)
+						SetShader(shader, (Location.x - (fSize / 2)), (Location.y - (!CE.ESPSettings.ESPWeaponNames ? -(TextHeight("normalfont", fFontSize)) : 0.0f)) + 3.0f, fSize, fSize, 1, 1, 1, 1);
+					else if (weaponDef->killIconRatio == WEAPON_ICON_RATIO_2TO1)
+						SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - (!CE.ESPSettings.ESPWeaponNames ? -(TextHeight("normalfont", fFontSize)) : 0.0f)) + 3.0f, (fSize * 2.0), fSize, 1, 1, 1, 1);
+					else
+						SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - (!CE.ESPSettings.ESPWeaponNames ? -(TextHeight("normalfont", fFontSize)) : 0.0f)) + 7.0f, (fSize * 2.0), (fSize * 0.5), 1, 1, 1, 1);
+				}
+			}
+		}
+	}
+}
+
+void DrawESPBox(int Client)
 {
 	float R, G, B, A;
-	if (isdogo) {
-		R = color->R; G = color->G; B = color->B; A = color->A;
-	}
-	else
-		SetESPColor(Client, R, G, B, A);
+	SetESPColor(Client, R, G, B, A);
+
 	float fHeight, fWidth; Vector2 Location; int distance = GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[Client].pose.Origin);
 
 	if (GetDimentions(Client, &fWidth, &fHeight, &Location))
@@ -384,67 +486,54 @@ void DrawESPBox(int Client, bool isdogo, RGBA *color = NULL, int owner = 0)
 
 			if (CE.ESPSettings.ESPName)
 			{
-				if (isdogo)
-				{
-					int Addition = 0;
-					if (!CE.ESPSettings.ESPDistance)
-						Addition = TextHeight("normalfont", fFontSize);
-					SetTextCenteredWithBackGround(va("%s's Dog", cg->clientinfo[owner].Name), "normalfont", Location.x, ((Location.y + Addition) - (fHeight + (TextHeight("normalfont", fFontSize) * 2)) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
-				}
+				Dvar_SetBool("cg_drawFriendlyNames", false);
+				Dvar_SetBool("cg_drawCrosshairNames", false);
+				int Addition = 0;
+				if (!CE.ESPSettings.ESPName)
+					Addition = TextHeight("normalfont", fFontSize);
+				if (!cuser_strcmp(cg->clientinfo[Client].clanAbbrev, ""))
+					SetTextCenteredWithBackGround(va("[%s]%s", cg->clientinfo[Client].clanAbbrev, cg->clientinfo[Client].Name), "normalfont", Location.x, ((Location.y + Addition) - (fHeight + (TextHeight("normalfont", fFontSize) * 2)) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
 				else
-				{
-					Dvar_SetBool("cg_drawFriendlyNames", false);
-					Dvar_SetBool("cg_drawCrosshairNames", false);
-					int Addition = 0;
-					if (!CE.ESPSettings.ESPName)
-						Addition = TextHeight("normalfont", fFontSize);
-					if (!cuser_strcmp(cg->clientinfo[Client].clanAbbrev, ""))
-						SetTextCenteredWithBackGround(va("[%s]%s", cg->clientinfo[Client].clanAbbrev, cg->clientinfo[Client].Name), "normalfont", Location.x, ((Location.y + Addition) - (fHeight + (TextHeight("normalfont", fFontSize) * 2)) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
-					else
-						SetTextCenteredWithBackGround(va("%s", cg->clientinfo[Client].Name), "normalfont", Location.x, ((Location.y + Addition) - (fHeight + (TextHeight("normalfont", fFontSize) * 2)) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
-				}
+					SetTextCenteredWithBackGround(va("%s", cg->clientinfo[Client].Name), "normalfont", Location.x, ((Location.y + Addition) - (fHeight + (TextHeight("normalfont", fFontSize) * 2)) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
 			}
 			else {
 				Dvar_SetBool("cg_drawFriendlyNames", true);
 				Dvar_SetBool("cg_drawCrosshairNames", true);
 			}
+
 			if (CE.ESPSettings.ESPDistance)
 				SetTextCenteredWithBackGround(va("%im", distance), "normalfont", Location.x, (Location.y - (fHeight + (TextHeight("normalfont", fFontSize) * 1)) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
+
 			if (CE.ESPSettings.ESPWeaponNames)
 			{
-				if (!isdogo)
-				{
-					const char* WeaponName = GetWeaponName(Entity[Client].nextState.Weapon);
-					if (!cuser_strcmp(WeaponName, ""))
-						SetTextCenteredWithBackGround(WeaponName, "normalfont", Location.x, ((Location.y + 5) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
-					else
-						SetTextCenteredWithBackGround("none", "normalfont", Location.x, ((Location.y + 5) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
-				}
+				const char* WeaponName = GetWeaponName(Entity[Client].nextState.Weapon);
+				if (!cuser_strcmp(WeaponName, ""))
+					SetTextCenteredWithBackGround(WeaponName, "normalfont", Location.x, ((Location.y + 5) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
+				else
+					SetTextCenteredWithBackGround("none", "normalfont", Location.x, ((Location.y + 5) + TextHeight("normalfont", fFontSize)), fFontSize, fFontSize, 1, 1, 1, 1, 0, 0, 0, 0.5);
 			}
+
 			if (CE.ESPSettings.ESPWeaponShaders)
 			{
-				if (!isdogo)
-				{
-					int Subtractor = 0;
-					if (!CE.ESPSettings.ESPWeaponNames)
-						Subtractor = 0;
-					else
-						Subtractor = -(TextHeight("normalfont", fFontSize));
+				int Subtractor = 0;
+				if (!CE.ESPSettings.ESPWeaponNames)
+					Subtractor = 0;
+				else
+					Subtractor = -(TextHeight("normalfont", fFontSize));
 
-					WeaponDef* weaponDef = BG_GetWeaponDef(Entity[Client].nextState.Weapon);
-					Material* shader = GetWeaponShader(Entity[Client].nextState.Weapon);
-					float fSize = (40 - (GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[Client].pose.Origin)));
-					if (fSize < 20)
-						fSize = 20;
-					if (shader && weaponDef)
-					{
-						if (weaponDef->killIconRatio == WEAPON_ICON_RATIO_1TO1)
-							SetShader(shader, (Location.x - (fSize / 2)), (Location.y - Subtractor) + 3.0f, fSize, fSize, 1, 1, 1, 1);
-						else if (weaponDef->killIconRatio == WEAPON_ICON_RATIO_2TO1)
-							SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - Subtractor) + 3.0f, (fSize * 2.0), fSize, 1, 1, 1, 1);
-						else
-							SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - Subtractor) + 7.0f, (fSize * 2.0), (fSize * 0.5), 1, 1, 1, 1);
-					}
+				WeaponDef* weaponDef = BG_GetWeaponDef(Entity[Client].nextState.Weapon);
+				Material* shader = GetWeaponShader(Entity[Client].nextState.Weapon);
+				float fSize = (40 - (GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[Client].pose.Origin)));
+				if (fSize < 20)
+					fSize = 20;
+				if (shader && weaponDef)
+				{
+					if (weaponDef->killIconRatio == WEAPON_ICON_RATIO_1TO1)
+						SetShader(shader, (Location.x - (fSize / 2)), (Location.y - Subtractor) + 3.0f, fSize, fSize, 1, 1, 1, 1);
+					else if (weaponDef->killIconRatio == WEAPON_ICON_RATIO_2TO1)
+						SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - Subtractor) + 3.0f, (fSize * 2.0), fSize, 1, 1, 1, 1);
+					else
+						SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - Subtractor) + 7.0f, (fSize * 2.0), (fSize * 0.5), 1, 1, 1, 1);
 				}
 			}
 		}
@@ -586,18 +675,20 @@ void DrawESP()
 	{
 		DrawRadar();
 
-		for (int i = 12; i < 2048; i++)
+		for (int i = 36; i < 2048; i++)
 		{
 			if (Entity[i].nextState.Type == ET_ITEM)
 			{
-				DrawWeaponsOnScreen(i);
+				if(CE.ESPSettings.DrawWeapons)
+					DrawWeaponsOnScreen(i);
 
 				if (CE.ExternalRadar)
 					DrawWeaponsOnRadar(i);
 			}
 			else if (Entity[i].nextState.Type == ET_MISSILE)
 			{
-				DrawExplosivesOnScreen(i);
+				if(CE.ESPSettings.DrawExplosives)
+					DrawExplosivesOnScreen(i);
 
 				if (CE.ExternalRadar)
 					DrawExplosivesOnRadar(i);
@@ -634,41 +725,80 @@ void DrawESP()
 			}
 		}
 
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < 36; i++)
 		{
-			if (i == cg->ClientNumber)
-				continue;
-
-			if (!(Entity[i].nextState.pad & 1))
-				continue;
-
-			if ((!cg->characterinfo[i].infoValid))
-				continue;
-
-			if ((cg->clientinfo[i].Name == NULL))
-				continue;
-
-			if (cuser_strcmp(cg->clientinfo[i].Name, ""))
-				continue;
-
-			if (!((Entity[i].nextState.Type == ET_PLAYER) || (Entity[i].nextState.Type == ET_AGENT)))
-				continue;
-			
-			if (IsEnemy(i)) {
-				if (!CE.ESPSettings.DrawEnemies)
+			if (i >= 12)
+			{
+				if (i == cg->ClientNumber)
 					continue;
-			}
-			else {
-				if (!CE.ESPSettings.DrawFriendies)
+
+				CompassActor* compassActor = CG_CompassGetActor(0, i);
+
+				if (!compassActor)
 					continue;
+
+				if (compassActor->lastUpdate > cg->time)
+					compassActor->lastUpdate = 0;
+
+				if (compassActor->lastUpdate <= (cg->time + -0x1F4))
+					continue;
+
+				if (!(Entity[i].pose.eType & 1))
+					continue;
+
+				if ((!cg->characterinfo[i].infoValid))
+					continue;
+
+				if (Entity[i].nextState.Type != ET_AGENT)
+					continue;
+
+				if (!(compassActor->flags & 1)) {
+					if (!CE.ESPSettings.DrawEnemies)
+						continue;
+				}
+				else {
+					if (!CE.ESPSettings.DrawFriendies)
+						continue;
+				}
+
+
 			}
+			else
+			{
+				if (i == cg->ClientNumber)
+					continue;
 
-			if (!Menu.MenuStatus)
-				DrawPlayerPointer(i);
+				if (!(Entity[i].nextState.pad & 1))
+					continue;
 
-			DrawSnapLine(i);
-			DrawESPBones(i);
-			DrawESPBox(i, false, 0);
+				if ((!cg->characterinfo[i].infoValid))
+					continue;
+
+				if ((cg->clientinfo[i].Name == NULL))
+					continue;
+
+				if (cuser_strcmp(cg->clientinfo[i].Name, ""))
+					continue;
+
+				if (Entity[i].nextState.Type != ET_PLAYER)
+					continue;
+
+				if (IsEnemy(i)) {
+					if (!CE.ESPSettings.DrawEnemies)
+						continue;
+				}
+				else {
+					if (!CE.ESPSettings.DrawFriendies)
+						continue;
+				}
+
+				if (!Menu.MenuStatus)
+					DrawPlayerPointer(i);
+
+				DrawSnapLine(i);
+				DrawESPBones(i);
+				DrawESPBox(i);
+			}
 		}
 
 		if (CE.ExternalRadar)

@@ -367,6 +367,8 @@ void CreateMenu()
 	CreateSub("ESP Settings", &Menu.MenuIDs.ESPSettings, &Menu.MenuIDs.Visual);
 	AddBool("Draw Enemies", "Draw enemy players.", &CE.ESPSettings.DrawEnemies);
 	AddBool("Draw Friendlies", "Draw friendly players.", &CE.ESPSettings.DrawFriendies);
+	AddBool("Draw Doggos", "Draw Dogs.", &CE.ESPSettings.DrawDoggos);
+	AddBool("Draw Squad Members", "Draw Squad Members.", &CE.ESPSettings.DrawSquadMembers);
 	AddBool("Bones", "Draw the player bones on the ESP.", &CE.ESPSettings.ESPBones);
 	AddBool("Names", "Draw the player names on the ESP.", &CE.ESPSettings.ESPName);
 	AddBool("Distance", "Draw the distance of players on the ESP.", &CE.ESPSettings.ESPDistance);

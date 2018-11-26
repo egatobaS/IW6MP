@@ -947,6 +947,25 @@ struct clientUIActive_t
 	connstate_t connectionState; //0x70
 };
 
+struct CompassActor
+{
+	int lastUpdate; //0x00
+	float lastPos[3]; //0x04
+	float lastEnemyPos[3]; //0x10
+	float lastEnemyYaw; //0x1C
+	float lastVel; //0x20
+	float lastYaw; //0x24
+	int pingTime; //0x28
+	int beginFadeTime; //0x2C
+	int beginRadarFadeTime; //0x30
+	int beginVoiceFadeTime; //0x34
+	int flags; //0x38
+	unsigned int perks[2]; //0c3C
+	bool hadPerkRedBlip; //0x44
+	bool wasSighted; //0x45
+	int ownerNum; //0x48
+}; //0x4C
+
 extern clientUIActive_t* clientUIActive;
 extern cgs_t* cgs;
 extern cg_s* cg;

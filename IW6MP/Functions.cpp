@@ -1026,7 +1026,7 @@ void GetWeaponSpread(float* Spread)
 
 void NoSpread(usercmd_s *cmd)
 {
-	//if (!ClientActive_t->flZoomProgress)
+	if (!(ClientActive_t->flZoomProgress > 0.0f))
 	{
 		float Spread = 0.0f;
 		GetWeaponSpread(&Spread);
