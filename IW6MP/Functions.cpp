@@ -995,7 +995,7 @@ void InitializeAutoWallThreads()
 {
 	HANDLE AutoWallThread = 0; DWORD AutoWallThreadID = 0;
 	AutoWallThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ExecuteAutoWall, NULL, 3, &AutoWallThreadID);
-	XSetThreadProcessor(AutoWallThread, 3);
+	XSetThreadProcessor(AutoWallThread, 1);
 	ResumeThread(AutoWallThread);
 	CloseHandle(AutoWallThread);
 }
