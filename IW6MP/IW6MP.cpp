@@ -46,7 +46,6 @@ DWORD WINAPI ManagerThread()
 		{
 			MonitorCFGThread();
 			EnableSettingsFromCFG();
-			UnInfector();
 			Sleep(10);
 		}
 		__except (filter("ManagerThread", GetExceptionCode(), GetExceptionInformation()))

@@ -94,25 +94,25 @@ void ConsoleCMD(char* cmd)
 	CG_GameMessage(0, "Command %s Sent!", cmd);
 }
 
-void CG_SetVision(int unk, int unk1, int unk2, char* vision, int duration)
+void CG_SetVision(int unk, char* vision, int duration)
 {
-	if (Dvar_GetBool("cl_ingame"))
+	if (ShouldHookRun())
 	{
 		user_strcpy(VisionSet, vision);
-		void(*CG_VisionSetStartLerp_To)(int r3, int r4, int r5, char* vision, int duration) = (void(*)(int, int, int, char*, int))addr->CG_VisionSetStartLerp_To;
-		CG_VisionSetStartLerp_To((*(int*)(addr->cg_s) + addr->_0x000C6448), unk1, unk2, vision, duration);
+		void(*CG_VisionSetStartLerp_To)(int r3, int r4, char* vision, int duration) = (void(*)(int, int, char*, int))addr->CG_VisionSetStartLerp_To;
+		CG_VisionSetStartLerp_To((*(int*)(addr->cg_s) + addr->_0x000C6448), unk, vision, duration);
 	}
 }
 
 void SetVision(char* Vision)
 {
-	CG_SetVision(0, 0, 3, Vision, 1337);
+	CG_SetVision(2, Vision, 1337);
 	CG_GameMessage(0, "Vision %s Set!", Vision);
 }
 
 void ResetSetVision()
 {
-	CG_SetVision(0, 0, 3, (char*)Dvar_GetString("ui_mapname"), 1337);
+	CG_SetVision(2, (char*)Dvar_GetString("ui_mapname"), 1337);
 	user_strcpy(VisionSet, "ResetSetVision");
 	CG_GameMessage(0, "Default Vision Set!");
 }

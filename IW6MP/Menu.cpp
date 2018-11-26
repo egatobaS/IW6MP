@@ -239,12 +239,6 @@ void CreateMenu()
 	AddBool("Third Person", "Enable/Disable the third person camera mode.", &CE.ThirdPerson);
 	//AddBool("IP Spoofing", "Enable/Disable spoofing of your IP Address if you are trying to party up with some one you need to disable this first.", &CE.IPSpoofer);
 	//AddBool("Never Host", "", &CE.NeverHost);
-	AddFloatProgress("Field Of View", "Change the ammount of observable game world you can see.", &CE.Fov, 5, 65, 120);
-	AddFuctionCall("Change Team", "Allows you to change teams off host though the teams become broken so you will need to enable \"Invert Team\".", ChangeTeam);
-	AddBool("Invert Team", "Invert the team check so when you spoof teams you will shoot the correct enemies. (use with \"Change Team\")", &CE.InverseTeams);
-	AddIntCall("Class Number", "This will be the class used when you get Un-Infected or spawn as the Juggernaut or set your current class.", ChangeClass, &CE.ClassNum, 1, 1, 15);
-	AddBool("Auto Un-Infector", "Will automatically Un-Infect you if you become infected (Only works in the Infected Game Mode).", &CE.AutoUnInfect);
-	AddFuctionCall("Set Juggernaut", "Change into the Juggernaut streak when ever you want. (Note: If you want your custom class choose this right when you spawn in at the start of the game.)", JugClass);
 	AddFuctionCall("Console Command", "Send a command to the console.", ConsoleCommand);
 	AddFuctionCall("End Game", "End the game with out being host.", EndGame);
 	AddFuctionCall("Leave Game", "Leave the game at any point handy for long host migrations.", LeaveGame);

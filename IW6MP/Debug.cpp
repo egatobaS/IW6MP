@@ -141,7 +141,7 @@ void DrawDebug()
 		}
 
 		if (CE.Host && ShouldHookRun()) {
-			_snprintf(Buffer, sizeof(Buffer), "Host: %s", Dvar_GetString("ui_host"));
+			_snprintf(Buffer, sizeof(Buffer), "Host: %s", cgs->szHostName);
 			SetTextWithBackGround(Buffer, "normalFont", (RightX - (TextWidth(Buffer, "normalFont") * 0.5)), RightY + (25 * CurrentIndex), 0.5, 0.5, CE.TextColour.R, CE.TextColour.G, CE.TextColour.B, CE.TextColour.A, CE.MenuSecondaryColour.R, CE.MenuSecondaryColour.G, CE.MenuSecondaryColour.B, CE.MenuSecondaryColour.A, CE.MenuPrimaryColour.R, CE.MenuPrimaryColour.G, CE.MenuPrimaryColour.B, CE.MenuPrimaryColour.A);
 			CurrentIndex++;
 		}

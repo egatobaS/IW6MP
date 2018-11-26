@@ -267,7 +267,7 @@ struct addr_s
 		YawVectors2D = 0x82551B20;
 		CL_ClientIsInMyParty = 0x8228DC48;
 		CalcCompassFriendlySize = 0x8225FC18;
-		SERVER_ID = 0x82F2B28;
+		SERVER_ID = 0x82B55908;
 		BG_EvaluateTrajectory = 0x0;
 		CG_GetVelocity = 0x82237738;
 		Sys_EnterCriticalSection = 0x82573DC0;

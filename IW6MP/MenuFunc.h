@@ -1,14 +1,9 @@
 #pragma once
 
-void ChangeTeam();
-void ChangeClass();
-
 void ConsoleCommand();
 void Changeclantag();
 void ChangeGamertag();
 void ResetGamertag();
-void UnInfector();
-void JugClass();
 void EndGame();
 void LeaveGame();
 void ModLooper();

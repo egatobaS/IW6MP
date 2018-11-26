@@ -4,33 +4,6 @@
 #include "Menu.h"
 #include "LoadCFG.h"
 
-const char* TeamNumToName(int team)
-{
-	if (team == 1)
-		return "axis";
-	if (team == 2)
-		return "allies";
-	else
-		return "spectator";
-}
-
-void ChangeTeam()
-{
-	if (ShouldHookRun())
-	{
-		if (cg->characterinfo[cg->ClientNumber].Team == 2)
-			CL_AddReliableCommand(0, "mr %i 3 %s", *(int*)(addr->SERVER_ID), TeamNumToName(1));
-		else
-			CL_AddReliableCommand(0, "mr %i 3 %s", *(int*)(addr->SERVER_ID), TeamNumToName(2));
-	}
-}
-
-void ChangeClass()
-{
-	CL_AddReliableCommand(0, "mr %i 10 custom%i", *(int*)(addr->SERVER_ID), CE.ClassNum);
-	CG_GameMessage(0, va("Custom Class %i set!", CE.ClassNum));
-}
-
 void ConsoleCommand()
 {
 	ThreadKeyBoardAction((int)ConsoleCMD, L"", L"Console Command", L"Enter a console command ie. cg_fov 90", 999);
@@ -74,59 +47,9 @@ void ResetGamertag()
 		SetName(CE.OriginalName);
 }
 
-int TryCounter = 0;
-void UnInfector()
-{
-	if (ShouldHookRun())
-	{
-		if (cuser_strcmp(UI_GetGameTypeName(Dvar_GetString("ui_gametype")), "Infected") && (cg->characterinfo[cg->ClientNumber].Team == 1) && CE.AutoUnInfect && TryCounter <= 10)
-		{
-			Sleep(200);
-			ChangeClass();
-			Sleep(50);
-			CL_AddReliableCommand(0, "mr %i 3 %s", *(int*)(addr->SERVER_ID), TeamNumToName(2));
-			Sleep(300);
-			TryCounter++;
-		}
-
-		if ((cg->characterinfo[cg->ClientNumber].Team == 2))
-			TryCounter = 0;
-	}
-}
-
-void DoJuggWork()
-{
-	int Team = cg->characterinfo[cg->ClientNumber].Team;
-	int ServerID = *(int*)(addr->SERVER_ID);
-
-	CL_AddReliableCommand(0, "mr %i 3 spectator", ServerID);
-	Sleep(100);
-	CL_AddReliableCommand(0, "mr %i 3 %s", ServerID, TeamNumToName(Team));
-	Sleep(100);
-	CL_AddReliableCommand(0, "mr %i 10 axis", ServerID);
-	Sleep(100);
-	ChangeClass();
-
-	CG_GameMessage(0, "^2Juggernaut Given");
-	DWORD Thr_Exit = 0;
-	ExitThread(Thr_Exit);
-}
-
-void JugClass()
-{
-	if (ShouldHookRun())
-	{
-		DWORD hThreadID;
-		HANDLE hThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)DoJuggWork, 0, 3, &hThreadID);
-		XSetThreadProcessor(hThread, 1);
-		ResumeThread(hThread);
-		CloseHandle(hThread);
-	}
-}
-
 void EndGame()
 {
-	Cbuf_AddText(0, "cmd mr %i -1 endround;", *(int*)(addr->SERVER_ID));
+	Cbuf_AddText(0, "cmd lui 9 1 %i;", *(int*)(addr->SERVER_ID));
 	CG_GameMessage(0, "^1Game Ended");
 }
 
