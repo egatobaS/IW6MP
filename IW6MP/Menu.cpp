@@ -302,6 +302,7 @@ void CreateMenu()
 	AddBool("Quake style notifications", "Enable/Disable the quake killing spree notifications.", &CE.quakeprints);
 	//AddBool("Modder Detection", "Automatically detect other modders and Prioritze that client.", &CE.MDetection);
 
+
 	CreateSub("Menu Customization Settings", &Menu.MenuIDs.MenuSettings, &Menu.MenuIDs.Settings);
 	const char* BoolType[] = { "Text", "Check Box", "Fill Box", "Switches" };
 	AddStringArray("Bool Type", "Change the way the menu draws bools.", &CE.BoolType, BoolType, 4);

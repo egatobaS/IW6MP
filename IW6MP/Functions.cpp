@@ -332,27 +332,34 @@ void CacheTagOrigins(int client)
 }
 
 bool GetTagPos(int EntNum, const char* Tag, Vector3* Pos, bool pointscale) {
-	int index = GetTagIndexForName(Tag);
-	if (index == -1)
+	if (EntNum >= 12)
 	{
-		printf("Failed to Find tag '%s' on player '%i' as it was not cached\n", Tag, EntNum);
+		return _GetTagPos(EntNum, Tag, Pos);
+	}
+	else
+	{
+		int index = GetTagIndexForName(Tag);
+		if (index == -1)
+		{
+			printf("Failed to Find tag '%s' on player '%i' as it was not cached\n", Tag, EntNum);
+			return false;
+		}
+
+		Pos->x = 0; Pos->y = 0; Pos->z = 0;
+
+		if (CachedTags[index][EntNum].Sucess)
+		{
+			Vector3 Tagpos = CachedTags[index][EntNum].Origin;
+
+			if (CE.PosAdjustment && pointscale)
+				Tagpos.z += (0.10f * CE.PosAdjustmentScale);
+
+			memcpy(Pos, &Tagpos, 0xC);
+
+			return true;
+		}
 		return false;
 	}
-
-	Pos->x = 0; Pos->y = 0; Pos->z = 0;
-
-	if (CachedTags[index][EntNum].Sucess)
-	{
-		Vector3 Tagpos = CachedTags[index][EntNum].Origin;
-
-		if (CE.PosAdjustment && pointscale)
-			Tagpos.z += (0.10f * CE.PosAdjustmentScale);
-
-		memcpy(Pos, &Tagpos, 0xC);
-
-		return true;
-	}
-	return false;
 }
 
 void FixMovement(usercmd_s* pCmd, float CurAngle, float OldAngle, float fOldForward, float fOldSidemove)

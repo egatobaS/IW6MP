@@ -313,9 +313,6 @@ void CG_CompassDrawFriendlies()
 		if (cg->ps.clientNum == i)
 			continue;
 
-		if (!(Entity[i].pose.eType & 1))
-			continue;
-
 		if ((compassActor->flags & 1))
 			continue;
 
@@ -382,9 +379,6 @@ void CG_CompassDrawEnemies()
 			continue;
 
 		if (cg->ps.clientNum == i)
-			continue;
-
-		if (!(Entity[i].pose.eType & 1))
 			continue;
 
 		if (!(compassActor->flags & 1))

@@ -239,6 +239,35 @@ void DrawESPBones(int Client)
 	}
 }
 
+void DrawDogBones(int Dog)
+{
+	if (CE.ESPSettings.ESPBones)
+	{
+		DrawBoneLine(Dog, "j_helmet", "j_neck", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_neck", "j_tail_base", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_neck", "j_shoulder_le", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_neck", "j_shoulder_ri", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_shoulder_le", "j_elbow_le", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_shoulder_ri", "j_elbow_ri", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_elbow_le", "j_wrist_le", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_elbow_ri", "j_wrist_ri", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_wrist_le", "j_palm_le", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_wrist_ri", "j_palm_ri", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_tail_base", "j_hip_le", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_tail_base", "j_hip_ri", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_hip_le", "j_knee_le", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_hip_ri", "j_knee_ri", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_knee_le", "j_ankle_le", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_knee_ri", "j_ankle_ri", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_ankle_le", "j_ball_le", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_ankle_ri", "j_ball_ri", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_tail_base", "j_tail0", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_tail0", "j_tail1", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_tail1", "j_tail2", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+		DrawBoneLine(Dog, "j_tail2", "j_tail3", CE.BonesColor.R, CE.BonesColor.G, CE.BonesColor.B, CE.BonesColor.A);
+	}
+}
+
 float GetBoxHeight(centity_s ent) {
 	Vector3 Head, Feet;
 	if (GetTagPos(ent.nextState.clientNum, "j_helmet", &Head))
@@ -309,6 +338,26 @@ void Draw3DBox(Vector3 Centre, Vector3 Dimensions, Vector3 Angles, float R, floa
 void DrawESPBoxAlt(int Client, bool IsDog, const char* Name, float R, float G, float B, float A)
 {
 	float fHeight, fWidth; Vector2 Location; int distance = GetDistance(Entity[cg->ClientNumber].pose.Origin, Entity[Client].pose.Origin);
+
+	if (CE.ESPSettings.SnapLines)
+	{
+		float fHeight, fWidth; Vector2 Location;
+		if (GetDimentions(Client, &fWidth, &fHeight, &Location, true))
+		{
+			float BeginX, BeginY;
+			if (CE.ESPSettings.SnapLines == SnapTop) {
+				BeginX = (cg->refdef.width / 2); BeginY = 0;
+				Location.y -= fHeight;
+			}
+			if (CE.ESPSettings.SnapLines == SnapMiddle) {
+				BeginX = (cg->refdef.width / 2); BeginY = (cg->refdef.height / 2);
+			}
+			else if (CE.ESPSettings.SnapLines == SnapBottom) {
+				BeginX = (cg->refdef.width / 2); BeginY = cg->refdef.height;
+			}
+			DrawLine(Location.x, Location.y, BeginX, BeginY, 1, R, G, B, A);
+		}
+	}
 
 	if (GetDimentions(Client, &fWidth, &fHeight, &Location))
 	{
@@ -400,11 +449,11 @@ void DrawESPBoxAlt(int Client, bool IsDog, const char* Name, float R, float G, f
 				if (shader && weaponDef)
 				{
 					if (weaponDef->killIconRatio == WEAPON_ICON_RATIO_1TO1)
-						SetShader(shader, (Location.x - (fSize / 2)), (Location.y - (!CE.ESPSettings.ESPWeaponNames ? -(TextHeight("normalfont", fFontSize)) : 0.0f)) + 3.0f, fSize, fSize, 1, 1, 1, 1);
+						SetShader(shader, (Location.x - (fSize / 2)), (Location.y - (CE.ESPSettings.ESPWeaponNames ? -(TextHeight("normalfont", fFontSize)) : 0.0f)) + 3.0f, fSize, fSize, 1, 1, 1, 1);
 					else if (weaponDef->killIconRatio == WEAPON_ICON_RATIO_2TO1)
-						SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - (!CE.ESPSettings.ESPWeaponNames ? -(TextHeight("normalfont", fFontSize)) : 0.0f)) + 3.0f, (fSize * 2.0), fSize, 1, 1, 1, 1);
+						SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - (CE.ESPSettings.ESPWeaponNames ? -(TextHeight("normalfont", fFontSize)) : 0.0f)) + 3.0f, (fSize * 2.0), fSize, 1, 1, 1, 1);
 					else
-						SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - (!CE.ESPSettings.ESPWeaponNames ? -(TextHeight("normalfont", fFontSize)) : 0.0f)) + 7.0f, (fSize * 2.0), (fSize * 0.5), 1, 1, 1, 1);
+						SetShader(shader, (Location.x - ((fSize * 2.0) / 2)), (Location.y - (CE.ESPSettings.ESPWeaponNames ? -(TextHeight("normalfont", fFontSize)) : 0.0f)) + 7.0f, (fSize * 2.0), (fSize * 0.5), 1, 1, 1, 1);
 				}
 			}
 		}
@@ -743,16 +792,10 @@ void DrawESP()
 				if (compassActor->lastUpdate <= (cg->time + -0x1F4))
 					continue;
 
-				if (!(Entity[i].pose.eType & 1))
-					continue;
-
-				if ((!cg->characterinfo[i].infoValid))
-					continue;
-
 				if (Entity[i].nextState.Type != ET_AGENT)
 					continue;
 
-				if (!(compassActor->flags & 1)) {
+				if ((compassActor->flags & 1)) {
 					if (!CE.ESPSettings.DrawEnemies)
 						continue;
 				}
@@ -761,7 +804,28 @@ void DrawESP()
 						continue;
 				}
 
+				if (cuser_strcmp(cg->characterinfo[i].attachModelNames[0], "") && CE.ESPSettings.DrawDoggos)
+				{
+					char NameBuffer[0x200];
+					_snprintf(NameBuffer, sizeof(NameBuffer), "%s's Dog", cg->clientinfo[compassActor->ownerNum].Name);
 
+					//DrawDogBones(i);
+					if ((compassActor->flags & 1))
+						DrawESPBoxAlt(i, true, NameBuffer, 1, 0, 0, 1);
+					else
+						DrawESPBoxAlt(i, true, NameBuffer, 0, 1, 0, 1);
+				}
+				else if (CE.ESPSettings.DrawSquadMembers)
+				{
+					char NameBuffer[0x200];
+					_snprintf(NameBuffer, sizeof(NameBuffer), "%s's Squad Member", cg->clientinfo[compassActor->ownerNum].Name);
+
+					DrawESPBones(i);
+					if ((compassActor->flags & 1))
+						DrawESPBoxAlt(i, false, NameBuffer, 1, 0, 0, 1);
+					else
+						DrawESPBoxAlt(i, false, NameBuffer, 0, 1, 0, 1);
+				}
 			}
 			else
 			{
